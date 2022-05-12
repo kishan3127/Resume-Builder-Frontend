@@ -7,7 +7,6 @@ const CandidateScreen = (props) => {
   const { candidateId } = router.query;
   const { data } = props;
 
-  console.log(props, "candidateScreen");
   return (
     <>
       <CandidateProfile data={data} />

@@ -6,7 +6,9 @@ import user from "../../asset/user.jpg";
 
 import styled from "styled-components";
 
-import AdminLayout from "../../layouts/admin-layout";
+import { Text } from "../../screens/styles";
+
+import CustomFront from "../../layouts/front-layout";
 // todo: update the layout
 
 const { Panel } = Collapse;
@@ -48,6 +50,20 @@ type CandidateProfile = {
 
 // styledComponents
 
+export const CollapseCustom = styled(Collapse)`
+  .ant-collapse-content {
+    background: rgb(241, 231, 227) !important;
+  }
+`;
+
+export const LeftContainer = styled.div`
+  width: 25%;
+`;
+export const RightContainer = styled.div`
+  width: 100%;
+  padding-left: 25%;
+`;
+
 function callback(key) {
   console.log(key);
 }
@@ -73,69 +89,78 @@ const CandidateProfile = ({ data }: { data: CandidateProfile }) => {
 
   return (
     <>
-      <AdminLayout>
-        Name:{name} <br></br>
-        Name:{firstName} <br></br>
-        <Image src={user} alt="Picture of the author" />
-        <br></br>
-        email: {email}
-        <br></br>
-        contact: {contact}
-        <br></br>
-        Title: {intro?.title}
-        <br></br>
-        description: {intro?.description}
-        <Collapse
-          ghost
-          onChange={callback}
-          expandIcon={({ isActive }) =>
-            isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
-          }
-        >
-          {educations?.map((education: Education, index: number) => {
-            return (
-              <Panel key={index} header={AccordionHeaderEducation(education)}>
-                <p>{education?.description}</p>
-              </Panel>
-            );
-          })}
-        </Collapse>
-        <hr />
-        <Collapse
-          ghost
-          onChange={callback}
-          expandIcon={({ isActive }) =>
-            isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
-          }
-        >
-          {projects?.map((project: Project, index: number) => {
-            return (
-              <Panel key={index} header={AccordionHeaderExprience(project)}>
-                <p>{project?.description}</p>
-              </Panel>
-            );
-          })}
-        </Collapse>
-        <Row gutter={[20, 20]}>
-          {skills
-            ?.filter((skill: Skill) => skill.show)
-            .map((skill: Skill, index: number) => {
+      <CustomFront bg="#faf2f0">
+        <LeftContainer></LeftContainer>
+        <RightContainer>
+          Name:{name} <br></br>
+          Name:{firstName} <br></br>
+          <Image src={user} alt="Picture of the author" />
+          <br></br>
+          email: {email}
+          <br></br>
+          contact: {contact}
+          <br></br>
+          <Text p="86px 0 0 0" fl="unset" color="#232323" fs="55px" lh="1.3">
+            {intro?.title}
+          </Text>
+          <br></br>
+          <Text fl="unset" color="#232323" fs="17px" fw="400" lh="1.3">
+            {intro?.description}
+          </Text>
+          <CollapseCustom
+            expandIconPosition="right"
+            ghost
+            onChange={callback}
+            expandIcon={({ isActive }) =>
+              isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
+            }
+          >
+            {educations?.map((education: Education, index: number) => {
               return (
-                <Col key={index}>
-                  <Progress
-                    type="circle"
-                    format={() => `${skill.percentage}%`}
-                    percent={skill.percentage}
-                    strokeColor="#ab5232"
-                  />
-                  <br />
-                  {skill.name}
-                  <br />
-                </Col>
+                <Panel key={index} header={AccordionHeaderEducation(education)}>
+                  <p>{education?.description}</p>
+                </Panel>
               );
             })}
-        </Row>
-      </AdminLayout>
+          </CollapseCustom>
+          <hr />
+          <CollapseCustom
+            ghost
+            expandIconPosition="right"
+            onChange={callback}
+            expandIcon={({ isActive }) =>
+              isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
+            }
+          >
+            {projects?.map((project: Project, index: number) => {
+              return (
+                <Panel key={index} header={AccordionHeaderExprience(project)}>
+                  <p>{project?.description}</p>
+                </Panel>
+              );
+            })}
+          </CollapseCustom>
+          <Row gutter={[20, 20]}>
+            {skills
+              ?.filter((skill: Skill) => skill.show)
+              .map((skill: Skill, index: number) => {
+                return (
+                  <Col key={index}>
+                    <Progress
+                      type="circle"
+                      format={() => `${skill.percentage}%`}
+                      percent={skill.percentage}
+                      strokeColor="#ab5232"
+                    />
+                    <br />
+                    {skill.name}
+                    <br />
+                  </Col>
+                );
+              })}
+          </Row>
+        </RightContainer>
+      </CustomFront>
     </>
   );
 };
