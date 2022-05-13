@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect } from "react";
 import add from "date-fns/add";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
@@ -32,6 +31,9 @@ const tailFormItemLayout = {
 
 const SignUpForm = () => {
   const router = useRouter();
+  const IS_LOGGED = "is_logged";
+
+  const [, setCookie] = useCookies(["token", "userId", "email", IS_LOGGED]);
 
   const postSuccessfullSignup = (apiResponse: any) => {
     const signupResponse = apiResponse?.data?.data ?? {};
@@ -40,28 +42,28 @@ const SignUpForm = () => {
       seconds: signupResponse?.tokenData?.expiresIn,
     });
 
-    // setCookie("token", signupResponse?.tokenData?.token, {
-    //   expires: expiry,
-    // });
+    setCookie("token", signupResponse?.tokenData?.token, {
+      expires: expiry,
+    });
 
-    // setCookie("userId", signupResponse?.user?._id, {
-    //   expires: expiry,
-    // });
+    setCookie("userId", signupResponse?.user?._id, {
+      expires: expiry,
+    });
 
-    // setCookie("email", signupResponse?.user?.email, {
-    //   expires: expiry,
-    // });
+    setCookie("email", signupResponse?.user?.email, {
+      expires: expiry,
+    });
 
-    // setCookie(IS_LOGGED, true, {
-    //   expires: expiry,
-    // });
+    setCookie(IS_LOGGED, true, {
+      expires: expiry,
+    });
 
     router.push("/");
   };
   const signupSubmit = async () => {
     try {
-      // const response = await axios.post("signup", signUpDetails);
-      // postSuccessfullSignup(response);
+      const response = [];
+      postSuccessfullSignup(response);
     } catch (err) {
       console.log(err);
     }
@@ -80,7 +82,7 @@ const SignUpForm = () => {
 
   useEffect(() => {
     router.prefetch("/login");
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -173,7 +175,11 @@ const SignUpForm = () => {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout} style={{ textAlign: "center" }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            onClick={() => signupSubmit()}
+            type="primary"
+            htmlType="submit"
+          >
             Register
           </Button>{" "}
           <Divider orientation="center">Or</Divider>
