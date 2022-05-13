@@ -1,7 +1,6 @@
 import "antd/dist/antd.css";
 import "../styles/globals.css";
 import { GlobalStyle } from "../styles/global";
-import Head from "next/head";
 
 import NProgress from "nprogress";
 

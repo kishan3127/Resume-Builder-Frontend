@@ -48,13 +48,7 @@ export const Text = styled.div`
 `;
 
 export const FlexWrapper = styled.div`
-  ${({
-    align,
-    justify,
-  }: {
-    align?: FLEX_ALIGN_TYPES;
-    justify?: FLEX_JUSTIFY_TYPES;
-  }) => `
+  ${({ align, justify }: { align?: "string"; justify?: "string" }) => `
     display: flex;
     align-items: ${align || "stretch"};
     justify-content: ${justify || "flex-start"};

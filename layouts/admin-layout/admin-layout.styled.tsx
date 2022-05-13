@@ -4,7 +4,6 @@ import { Layout } from "antd";
 
 import { PageContent } from "../../screens/styles";
 
-const { Sider } = Layout;
 export const HeaderWrapper = styled.div`
   width: 100%;
   display: flex;
