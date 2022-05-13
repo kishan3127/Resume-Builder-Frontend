@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import "antd/dist/antd.css";
 import styled from "styled-components";
 
 import { Layout } from "antd";
 
 export const CustomFrontWrapper = styled(Layout)`
-  ${({ bg }: { bg?: string }) => `  background: ${bg};
-  font-family: 'PlayFair Display', sans; `}
+  ${({ bg }: { bg?: string }) => `
+  background: ${bg};
+  font-family: var(--front-primary-font)
+  `}
 `;
 
 function CustomFront({ children, bg }: { children: any; bg: string }) {
@@ -18,7 +20,7 @@ function CustomFront({ children, bg }: { children: any; bg: string }) {
 }
 
 CustomFront.defaultProps = {
-  bg: "red",
+  bg: "white",
 };
 
 export default CustomFront;

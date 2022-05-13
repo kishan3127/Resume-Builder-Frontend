@@ -1,6 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+:root{
+  --front-primary-font:'Playfair Display', serif;
+  --front-secondary-font: 'IBM Plex Mono', monospace;
+  --front-primary-color:#ab5232;
+  --front-secondary-color:'';
+}
   html {
     line-height: 1.15;
     scroll-behavior: smooth;

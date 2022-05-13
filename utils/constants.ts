@@ -85,7 +85,7 @@ export const CandidateProfiles = [
     ],
   },
   {
-    name: "Pankaj Asopa",
+    name: "Shikha Gupta",
     image:
       "https://mycareer.qodeinteractive.com/maria/wp-content/uploads/2019/12/h3-bg-img-1.jpg",
     email: "pankaj.asopa@sunarctechnologies.com",
