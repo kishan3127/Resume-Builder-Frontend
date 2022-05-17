@@ -469,7 +469,7 @@ const CandidateProfile = ({ data }: { data: CandidateProfile }) => {
               </Col>
               <Col span={8}>
                 <div className="right-container-text">
-                  <h4 className="title">Hello! I'M {firstName}</h4>
+                  <h4 className="title">Hello! I Am {firstName}</h4>
                   <div className="right-container-details">
                     {email && (
                       <p>
