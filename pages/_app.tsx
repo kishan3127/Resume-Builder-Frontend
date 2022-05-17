@@ -1,6 +1,8 @@
 import "antd/dist/antd.css";
 import "../styles/globals.css";
 import { GlobalStyle } from "../styles/global";
+import { ApolloProvider } from "@apollo/client";
+import client from "../apollo-client";
 
 import NProgress from "nprogress";
 
@@ -21,10 +23,10 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ApolloProvider client={client}>
       <GlobalStyle />
       <Component {...pageProps} />
-    </>
+    </ApolloProvider>
   );
 }
 
