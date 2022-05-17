@@ -148,6 +148,8 @@ export const LeftContainer = styled.header`
         }
 
         & span:hover {
+          color: var(--front-primary-color);
+
           :after {
             -webkit-transform: scaleX(1) !important;
             -ms-transform: scaleX(1) !important;
@@ -191,7 +193,7 @@ export const RightContainer = styled.main`
   }
   .skill-name {
     font-family: var(--front-secondary-font);
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.538em;
     letter-spacing: 0.1em;
     text-transform: uppercase;
