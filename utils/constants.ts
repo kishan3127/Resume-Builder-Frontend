@@ -46,6 +46,9 @@ export const CandidateProfiles = [
           "Experienced Recruiting Specialist with years of experience in hiring process management and recruitment procedure monitoring, developer of cross-company work force allocation strategies, a true team leader & most importantly, a good friend. Currently working at the Softworks Verity Technologies LTD as a senior Human Resources Manager and Digital Business Automation Specialist, with more than twenty teams in her official jurisdiction.",
       },
     ],
+    skill_intro:
+      "Trusted consultant with strong leadership skills & extensive multitasking abilities, a good team player.",
+
     skills: [
       {
         name: "LEADERSHIP SKILLS",
@@ -131,6 +134,8 @@ export const CandidateProfiles = [
           "Experienced Recruiting Specialist with years of experience in hiring process management and recruitment procedure monitoring, developer of cross-company work force allocation strategies, a true team leader & most importantly, a good friend. Currently working at the Softworks Verity Technologies LTD as a senior Human Resources Manager and Digital Business Automation Specialist, with more than twenty teams in her official jurisdiction.",
       },
     ],
+    skill_intro:
+      "Trusted consultant with strong leadership skills & extensive multitasking abilities, a good team player.",
     skills: [
       {
         name: "LEADERSHIP SKILLS",

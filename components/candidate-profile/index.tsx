@@ -46,6 +46,7 @@ type CandidateProfile = {
   projects: Project[];
   skills: Skills[];
   educations: Education[];
+  skill_intro: string;
 };
 
 // styledComponents
@@ -65,11 +66,22 @@ export const CollapseCustom = styled(Collapse)`
     text-transform: uppercase;
     font-family: var(--front-secondary-font);
     font-weight: bold;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    padding-left: 0 !important;
+    border-bottom: 1px solid #f1e7e3;
   }
 
   .ant-collapse-item-active .ant-collapse-header {
     border-bottom: 0 !important;
+  }
+
+  span.anticon.anticon-eye-invisible,
+  span.ant-collapse-arrow {
+    color: #629489;
+    font-size: 15px !important;
+  }
+
+  span.anticon.anticon-eye-invisible {
+    opacity: 0.8;
   }
 `;
 
@@ -97,9 +109,75 @@ export const LeftContainer = styled.header`
 
   .header-inner {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: flex-start;
     padding: 14px 33% 33px 30px;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+  }
+
+  nav {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      a {
+        position: relative;
+        font-family: var(--front-secondary-font);
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: 500;
+        color: #6b6768;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        padding: 0px;
+        display: block;
+        text-transform: uppercase;
+        line-height: 1.3;
+        padding: 10px 0;
+
+        span {
+          position: relative;
+          color: #232323;
+        }
+
+        &.active span {
+          -webkit-transform: scaleX(1) !important;
+          -ms-transform: scaleX(1) !important;
+          transform: scaleX(1) !important;
+        }
+
+        & span:hover {
+          :after {
+            -webkit-transform: scaleX(1) !important;
+            -ms-transform: scaleX(1) !important;
+            transform: scaleX(1) !important;
+          }
+        }
+
+        span :after {
+          width: 100%;
+          height: 1px;
+          background: #ee7968;
+          content: "";
+          position: relative;
+          display: block;
+          bottom: 22px;
+          -webkit-transform: scaleX(0);
+          -ms-transform: scaleX(0);
+          transform: scaleX(0);
+          -webkit-transform-origin: left;
+          -ms-transform-origin: left;
+          transform-origin: left;
+          -webkit-transition: 0.3s;
+          -o-transition: 0.3s;
+          transition: 0.3s;
+          position: absolute;
+          bottom: 0;
+          background-color: var(--front-primary-color);
+        }
+      }
+    }
   }
 `;
 export const RightContainer = styled.main`
@@ -110,6 +188,51 @@ export const RightContainer = styled.main`
   .intro-details {
     font-family: var(--front-secondary-font);
     font-weight: 400;
+  }
+  .skill-name {
+    font-family: var(--front-secondary-font);
+    font-size: 13px;
+    line-height: 1.538em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 25px 0;
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    color: #242424;
+    margin: 15px 0 0;
+  }
+
+  .right-container-text {
+    .title {
+      color: #0a1a2b;
+      font-family: var(--front-secondary-font);
+      font-size: 16px;
+      line-height: 1.375em;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 25px 0;
+      -ms-word-wrap: break-word;
+      word-wrap: break-word;
+    }
+    .right-container-details {
+      font-size: 13px;
+      line-height: 23px;
+      color: #595959;
+      font-family: var(--front-secondary-font);
+      word-break: break-word;
+    }
+  }
+
+  span.ant-progress-text {
+    color: rgb(36, 36, 36) !important;
+    font-family: var(--front-secondary-font);
+    font-weight: 700;
+    font-size: 21px;
   }
 `;
 
@@ -164,10 +287,10 @@ const TopBannerSection = styled.div`
   }
 `;
 export const ContainerWrapper = styled.div`
-  width: 780px;
   max-width: 100%;
-  margin: 0;
-  padding: 0 10px;
+  margin: 0 auto;
+  padding: 0px;
+  width: 1800px;
 `;
 function callback(key) {
   console.log(key);
@@ -189,154 +312,246 @@ const AccordionHeaderExprience = (data: { role: String }) => {
 };
 
 const CandidateProfile = ({ data }: { data: CandidateProfile }) => {
-  const { name, email, contact, intro, educations, projects, skills } = data;
+  const {
+    name,
+    email,
+    contact,
+    intro,
+    educations,
+    projects,
+    skills,
+    skill_intro,
+  } = data;
   const firstName = name.split(" ")[0] || "Name Here";
   const [first] = firstName.split(" ")[0] || "N";
 
   return (
     <>
       <CustomFront bg="#faf2f0">
-        <LeftContainer>
-          <div className="header-inner">
-            <div className="iconLogo">{first}</div>
-            <nav></nav>
-            <footer></footer>
-          </div>
-        </LeftContainer>
-        <RightContainer>
-          <TopBannerSection>
-            <Image src={user} alt="Picture of the author" />
-            <div className="text-container-top">
-              <div className="first-name rotated-name">
-                <h1>{firstName}</h1>
-              </div>
-              <div className="second-name rotated-name">
-                <h1>{firstName}</h1>
-              </div>
+        <ContainerWrapper>
+          <LeftContainer>
+            <div className="header-inner">
+              <div className="iconLogo">{first}</div>
+              <nav>
+                <ul>
+                  <li>
+                    <a href="#intro">
+                      <span>Biography</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#education">
+                      <span>Education</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#exprience">
+                      <span>Expertise</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#skills">
+                      <span>Skills</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <footer></footer>
             </div>
-          </TopBannerSection>
-          email: {email}
-          <br></br>
-          contact: {contact}
-          <br></br>
-          <Text p="86px 0 0 0" fl="unset" color="#232323" fs="55px" lh="1.3">
-            {intro?.title}
-          </Text>
-          <ContainerWrapper>
-            <section className="intor-section">
-              <div className="intro-details">
-                <Text
-                  fl="unset"
-                  mt="18px"
-                  mb="18px"
-                  color="#444343"
-                  fs="17px"
-                  fw="inherit"
-                  lh="1.765em"
-                >
-                  {intro?.description}
-                </Text>
-              </div>
-            </section>
-            <section>
-              <Text
-                color="#629489"
-                fl="unset"
-                lh="1.3"
-                fs="40px"
-                mb="10px;"
-                mt="20px;"
-                p="0px 0 0px"
-              >
-                Education
-              </Text>
-              <CollapseCustom
-                expandIconPosition="right"
-                ghost
-                onChange={callback}
-                expandIcon={({ isActive }) =>
-                  isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
-                }
-              >
-                {educations?.map((education: Education, index: number) => {
-                  return (
-                    <Panel
-                      key={index}
-                      header={AccordionHeaderEducation(education)}
-                    >
-                      <p>{education?.description}</p>
-                    </Panel>
-                  );
-                })}
-              </CollapseCustom>
-            </section>
-            <section>
-              <Text
-                color="#629489"
-                fl="unset"
-                lh="1.3"
-                fs="40px"
-                mb="10px;"
-                mt="20px;"
-                p="0px 0 0px"
-              >
-                Exprience
-              </Text>
+          </LeftContainer>
 
-              <CollapseCustom
-                ghost
-                expandIconPosition="right"
-                onChange={callback}
-                expandIcon={({ isActive }) =>
-                  isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
-                }
-              >
-                {projects?.map((project: Project, index: number) => {
-                  return (
-                    <Panel
-                      key={index}
-                      header={AccordionHeaderExprience(project)}
+          <RightContainer>
+            <TopBannerSection>
+              <Image src={user} alt="Picture of the author" />
+              <div className="text-container-top">
+                <div className="first-name rotated-name">
+                  <h1>{firstName}</h1>
+                </div>
+                <div className="second-name rotated-name">
+                  <h1>{firstName}</h1>
+                </div>
+              </div>
+            </TopBannerSection>
+
+            <Row gutter={[10, 20]} id="intro">
+              <Col span={20}>
+                <Text
+                  p="86px 0 0 0"
+                  fl="unset"
+                  color="#232323"
+                  fs="55px"
+                  lh="1.3"
+                >
+                  {intro?.title}
+                </Text>
+              </Col>
+              <Col span={16}>
+                <section className="intor-section">
+                  <div className="intro-details">
+                    <Text
+                      fl="unset"
+                      mt="18px"
+                      mb="18px"
+                      color="#444343"
+                      fs="17px"
+                      fw="inherit"
+                      lh="1.765em"
                     >
-                      <p>{project?.description}</p>
-                    </Panel>
-                  );
-                })}
-              </CollapseCustom>
-            </section>
-            <section>
+                      {intro?.description}
+                    </Text>
+                  </div>
+                </section>
+                <section id="education">
+                  <Text
+                    color="#629489"
+                    fl="unset"
+                    lh="1.3"
+                    fs="40px"
+                    mb="20px;"
+                    mt="20px;"
+                    p="50px 0 0 0"
+                  >
+                    Education
+                  </Text>
+                  <CollapseCustom
+                    expandIconPosition="right"
+                    ghost
+                    onChange={callback}
+                    expandIcon={({ isActive }) =>
+                      isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
+                    }
+                  >
+                    {educations?.map((education: Education, index: number) => {
+                      return (
+                        <Panel
+                          key={index}
+                          header={AccordionHeaderEducation(education)}
+                        >
+                          <p>{education?.description}</p>
+                        </Panel>
+                      );
+                    })}
+                  </CollapseCustom>
+                </section>
+                <section id="exprience">
+                  <Text
+                    color="#629489"
+                    fl="unset"
+                    lh="1.3"
+                    fs="40px"
+                    mb="20px;"
+                    mt="20px;"
+                    p="50px 0 0 0"
+                  >
+                    Exprience
+                  </Text>
+
+                  <CollapseCustom
+                    ghost
+                    expandIconPosition="right"
+                    onChange={callback}
+                    expandIcon={({ isActive }) =>
+                      isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
+                    }
+                  >
+                    {projects?.map((project: Project, index: number) => {
+                      return (
+                        <Panel
+                          key={index}
+                          header={AccordionHeaderExprience(project)}
+                        >
+                          <p>{project?.description}</p>
+                        </Panel>
+                      );
+                    })}
+                  </CollapseCustom>
+                </section>
+              </Col>
+              <Col span={8}>
+                <div className="right-container-text">
+                  <h4 className="title">Hello! I'M {firstName}</h4>
+                  <div className="right-container-details">
+                    {email && (
+                      <p>
+                        <b>Email:</b>
+                        <a href={`mailto:${email}`}> {email}</a>
+                      </p>
+                    )}
+                    {contact && (
+                      <p>
+                        <b>Contact:</b>{" "}
+                        <a href={`tel:${contact}`}> {contact}</a>
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+
+            <Row id="skills">
+              <Col span={16}>
+                <Text
+                  p="86px 0 0 0"
+                  fl="unset"
+                  color="#232323"
+                  fs="55px"
+                  lh="1.3"
+                  mb="40px"
+                >
+                  {skill_intro}
+                </Text>
+              </Col>
+              <Col span={16} style={{ marginBottom: "30px" }}>
+                <section>
+                  <Row justify="start" gutter={[20, 30]}>
+                    {skills
+                      ?.filter((skill: Skill) => skill.show)
+                      .map((skill: Skill, index: number) => {
+                        return (
+                          <Col
+                            flex="1 100%"
+                            key={index}
+                            style={{ textAlign: "center" }}
+                            xs={{ span: 8 }}
+                            lg={{ span: 8 }}
+                          >
+                            <Progress
+                              type="circle"
+                              format={() => `${skill.percentage}%`}
+                              percent={skill.percentage}
+                              strokeColor="var(--front-primary-color)"
+                            />
+                            <span className="skill-name">{skill.name} </span>
+                          </Col>
+                        );
+                      })}
+                  </Row>
+                </section>
+              </Col>
+            </Row>
+            <footer style={{ fontFamily: "var(--front-secondary-font)" }}>
               <Text
-                color="#629489"
                 fl="unset"
-                lh="1.3"
-                fs="40px"
-                mb="10px;"
-                mt="20px;"
-                p="0px 0 0px"
+                mt="40px"
+                mb="40px"
+                color="#444343"
+                fs="15px"
+                fw="600"
+                lh="1.765em"
               >
-                Skills
+                © 2021{" "}
+                <a
+                  href="https://sunarctechnologies.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  SunArc Technologies
+                </a>
+                , All Rights Reserved
               </Text>
-              <Row gutter={[20, 20]}>
-                {skills
-                  ?.filter((skill: Skill) => skill.show)
-                  .map((skill: Skill, index: number) => {
-                    return (
-                      <Col key={index}>
-                        <Progress
-                          type="circle"
-                          format={() => `${skill.percentage}%`}
-                          percent={skill.percentage}
-                          strokeColor="var(--front-primary-color)"
-                        />
-                        <br />
-                        {skill.name}
-                        <br />
-                      </Col>
-                    );
-                  })}
-              </Row>
-            </section>
-          </ContainerWrapper>
-        </RightContainer>
+            </footer>
+          </RightContainer>
+        </ContainerWrapper>
       </CustomFront>
     </>
   );
