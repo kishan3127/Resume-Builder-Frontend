@@ -222,7 +222,7 @@ export const RightContainer = styled.main`
       word-wrap: break-word;
     }
     .right-container-details {
-      font-size: 13px;
+      font-size: 17px;
       line-height: 23px;
       color: #595959;
       font-family: var(--front-secondary-font);
