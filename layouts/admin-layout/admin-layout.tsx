@@ -1,40 +1,79 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { Layout, Menu, Breadcrumb, Button } from "antd";
+import { Layout, Menu, Image, Button } from "antd";
+import type { MenuProps } from "antd";
+import Link from "next/link";
+
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
+import {} from "antd";
 
 import {
   UserOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
+  SettingOutlined,
+  FileOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 
-const { Header, Content, Sider } = Layout;
-const items1 = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
+const { Content, Sider, Header } = Layout;
 
-const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  }
-);
+type MenuItem = Required<MenuProps>["items"][number];
 
-function AdminLayout({ children }: { children: any }) {
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
+}
+
+const items: MenuItem[] = [
+  getItem(
+    <Link href="/dashboard/employees">
+      <a>Users</a>
+    </Link>,
+    "/",
+    <UserOutlined />
+  ),
+  getItem(
+    <Link href="/dashboard/employees">
+      <a>Companies</a>
+    </Link>,
+    "/dashboard/companies",
+    <TeamOutlined />,
+    [
+      getItem(
+        <Link href="/dashboard/companies/new">
+          <a>Add</a>
+        </Link>,
+        "/dashboard/companies/new"
+      ),
+      getItem(
+        <Link href="/dashboard/companies">
+          <a>Listing</a>
+        </Link>,
+        "/dashboard/companies"
+      ),
+    ]
+  ),
+  getItem("User", "sub1", <UserOutlined />, [
+    getItem("Tom", "3"),
+    getItem("Bill", "4"),
+    getItem("Alex", "5"),
+  ]),
+  getItem("Settings", "sub2", <SettingOutlined />, [
+    getItem("Team 1", "6"),
+    getItem("Team 2", "8"),
+  ]),
+  getItem("Files", "9", <FileOutlined />),
+];
+function AdminLayout({ children, route }: { children: any; route: any }) {
   const IS_LOGGED = "is_logged";
   const router = useRouter();
 
@@ -62,60 +101,50 @@ function AdminLayout({ children }: { children: any }) {
   return (
     <>
       <Layout>
-        <Header className="header">
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["2"]}
-            items={items1}
-          />
-        </Header>
-        <Layout>
+        <Layout style={{ minHeight: "100vh" }}>
           <Sider
-            theme="dark"
+            theme="light"
             collapsible
             collapsed={collapsed}
             onCollapse={onCollapse}
-            width={200}
-            className="site-layout-background"
           >
-            <Menu
-              mode="inline"
-              theme="dark"
+            <Header
               style={{
-                height: "100%",
-                borderRight: 0,
+                background: "white",
               }}
-              items={items2}
+            >
+              {" "}
+              <Image
+                preview={false}
+                width={50}
+                alt="logo"
+                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+              />
+            </Header>
+            <Menu
+              defaultSelectedKeys={[router.route]}
+              mode="inline"
+              items={items}
             />
           </Sider>
-          <Layout
-            style={{
-              padding: "0 24px 24px",
-            }}
-          >
-            <Breadcrumb
+          <Content>
+            <Header
               style={{
-                margin: "16px 0",
+                background: "white",
+                padding: "0 18px",
+              }}
+            ></Header>
+            <div
+              style={{
+                margin: "24px 16px 0",
+                background: "white",
+                overflow: "initial",
               }}
             >
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
-            <Content
-              className="site-layout-background"
-              style={{
-                padding: 24,
-                margin: 0,
-                minHeight: 280,
-              }}
-            >
-              {children}
-
               <Button onClick={() => handleLogoutClick()}>Logout</Button>
-            </Content>
-          </Layout>
+              {children}
+            </div>
+          </Content>
         </Layout>
       </Layout>
     </>
