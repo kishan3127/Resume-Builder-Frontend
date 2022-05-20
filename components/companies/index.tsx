@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../../styles/Home.module.css";
-import { Table, Tag, Space } from "antd";
+import { Table } from "antd";
 
 const QUERY = gql`
   query Companies {
