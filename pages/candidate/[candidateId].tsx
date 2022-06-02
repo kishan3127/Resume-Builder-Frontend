@@ -1,5 +1,5 @@
 import CandidateScreen from "../../screens/candidate";
-import { CandidateProfiles } from "../../utils/constants";
+import { staticData } from "../../utils/constants";
 import { IncomingMessage, ServerResponse } from "http";
 
 type GetInitalProps = {
@@ -12,23 +12,22 @@ type GetInitalProps = {
 
 export const getServerSideProps = async ({ query }: GetInitalProps) => {
   const candidateId = query?.candidateId || null;
-  const [first] = CandidateProfiles?.filter(
-    (profile) => profile._id == candidateId
-  );
 
   let newProps = {};
 
   try {
-    const apiResponse = first;
+    const apiResponse = staticData;
     newProps = {
       ...newProps,
       error: false,
       data: apiResponse ?? [],
+      candidateId,
     };
   } catch (error) {
     newProps = {
       ...newProps,
       data: [],
+      candidateId,
       error: true,
     };
   }

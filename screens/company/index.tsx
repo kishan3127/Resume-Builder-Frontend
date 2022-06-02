@@ -1,16 +1,10 @@
 import React from "react";
-import { useRouter } from "next/router";
 import CompanyProfile from "../../components/company-profile";
 
-const CompnayScreen = () => {
-  const router = useRouter();
-  const { companyId } = router.query;
-
-  console.log(companyId, "propspropsprops");
+const CompnayScreen = (props) => {
   return (
     <>
-      CompanyId - {JSON.stringify(router.query)}
-      <CompanyProfile />
+      <CompanyProfile companyId={props.companyId} />
     </>
   );
 };

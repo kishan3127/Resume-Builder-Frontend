@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 const EmployeesList = () => {
   const router = useRouter();
   const { route } = router;
-  console.log(route, "route");
-  // console.log(companyId, "propspropsprops");
 
   return (
     <>

@@ -76,7 +76,6 @@ const items: MenuItem[] = [
 function AdminLayout({ children, route }: { children: any; route?: any }) {
   const IS_LOGGED = "is_logged";
   const router = useRouter();
-  console.log(route);
 
   const [collapsed, setCollapsed] = useState(true);
   const [, , removeCookie] = useCookies([

@@ -9,7 +9,7 @@ const CandidateScreen = (props) => {
 
   return (
     <>
-      <CandidateProfile data={data} />
+      <CandidateProfile candidateId={props.candidateId} staticData={data} />
     </>
   );
 };
