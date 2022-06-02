@@ -1,10 +1,13 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../../styles/Home.module.css";
 import { Table } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 const QUERY = gql`
   query Employees {
     employees {
+      id
       name
       skill_intro
     }
@@ -51,6 +54,20 @@ const EmployeesList = () => {
       title: "Active",
       dataIndex: "skill_intro",
       key: "skill_intro",
+    },
+    {
+      title: "Preview",
+      key: "id",
+      dataIndex: "id",
+      render: (id) => (
+        <>
+          <Link href={`/candidate/${encodeURIComponent(id)}`}>
+            <a>
+              <EyeOutlined />
+            </a>
+          </Link>
+        </>
+      ),
     },
   ];
 
