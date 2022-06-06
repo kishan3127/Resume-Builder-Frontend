@@ -1,6 +1,12 @@
 import { useQuery, gql } from "@apollo/client";
-import styles from "../../styles/Home.module.css";
 import Link from "next/link";
+import { Skeleton, Card, Avatar, Row, Col } from "antd";
+
+// import Background from "../../asset/painter.svg";
+
+import styled from "styled-components";
+
+const { Meta } = Card;
 
 const QUERY = gql`
   query company($id: ID) {
@@ -10,8 +16,41 @@ const QUERY = gql`
       employees {
         name
         id
+        skill_intro
       }
     }
+  }
+`;
+
+const CompanyContainer = styled.div``;
+
+const LeftContainer = styled.div`
+  background: #6c0487;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 250px;
+  // background: url();
+`;
+
+const RightContainer = styled.div`
+  width: 100%;
+  padding: 10px 10px 10px 260px;
+`;
+
+const SkeletonLoader = styled(Skeleton)`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  position: fixed;
+  z-index: 61;
+  width: 100%;
+  margin: 0 auto;
+
+  .ant-skeleton-content {
+    width: 30%;
   }
 `;
 
@@ -21,24 +60,7 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
   });
 
   if (loading) {
-    return (
-      <div className={styles.grid}>
-        <svg
-          aria-hidden="true"
-          className="aal_svg"
-          height="16"
-          version="1.1"
-          viewBox="0 0 16 16"
-          width="16"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
-          ></path>
-        </svg>
-        Loading...
-      </div>
-    );
+    return <SkeletonLoader />;
   }
 
   if (error) {
@@ -49,19 +71,46 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
   const company = data.company;
 
   return (
-    <div className={"test"}>
-      <h1> {company.name}</h1>{" "}
-      <div className="list_of_employees">
-        {company.employees.map((employee) => {
-          return (
-            <div className="employeeList" key={employee.id}>
-              <Link href={`/${company.id}/${employee.id}`}>
-                <a>{employee.name}</a>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
+    <div className={"companyProfile"}>
+      <CompanyContainer>
+        <LeftContainer></LeftContainer>
+        <RightContainer>
+          <h1> {company.name}</h1>
+          <div className="list_of_employees">
+            {company.employees.length != 0 ? (
+              <Row gutter={16}>
+                {company.employees.map((employee) => {
+                  return (
+                    <Col
+                      xs={{ span: 24 }}
+                      sm={{ span: 12 }}
+                      md={{ span: 8 }}
+                      lg={{ span: 6 }}
+                      key={employee.id}
+                    >
+                      <Card>
+                        <Skeleton loading={loading} avatar active>
+                          <Link href={`/${company.id}/${employee.id}`}>
+                            <Meta
+                              avatar={
+                                <Avatar src="https://joeschmoe.io/api/v1/random" />
+                              }
+                              title={employee.name}
+                              description={employee.skill_intro}
+                            />
+                          </Link>
+                        </Skeleton>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            ) : (
+              "No Candidate is assigned to this company"
+            )}
+          </div>
+        </RightContainer>
+      </CompanyContainer>
     </div>
   );
 };

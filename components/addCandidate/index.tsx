@@ -1,21 +1,6 @@
 import { useMutation, gql } from "@apollo/client";
 import styles from "../../styles/Home.module.css";
-import { Table } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
-import Link from "next/link";
-
-import {
-  Form,
-  Input,
-  Button,
-  Radio,
-  Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
-} from "antd";
+import { Form, Input, Button } from "antd";
 
 const ADD_CANDIDATE = gql`
   mutation addEmployee($name: String!, $skill_intro: String!) {
@@ -28,7 +13,7 @@ const ADD_CANDIDATE = gql`
 `;
 
 const AddCandidate = () => {
-  const [addCandidate, { data, loading, error }] = useMutation(ADD_CANDIDATE);
+  const [addCandidate, { loading, error }] = useMutation(ADD_CANDIDATE);
   const [form] = Form.useForm();
 
   if (loading) {

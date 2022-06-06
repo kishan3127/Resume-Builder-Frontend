@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import { Collapse, Progress, Row, Col } from "antd";
 import { useQuery, gql } from "@apollo/client";
-import Link from "next/link";
 
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import user from "../../asset/user.jpg";
