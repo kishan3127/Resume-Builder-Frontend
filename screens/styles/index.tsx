@@ -285,6 +285,8 @@ export const FlexWrapper = styled.div`
     pr,
     width,
     cg,
+    ai,
+    jc,
   }: {
     mb?: string;
     mt?: string;
@@ -297,6 +299,8 @@ export const FlexWrapper = styled.div`
     width?: string;
     height?: string;
     cg?: string;
+    jc?: string;
+    ai?: string;
   }) => `
     display: flex;
     margin-top: ${mt || 0};
@@ -309,6 +313,8 @@ export const FlexWrapper = styled.div`
     padding-bottom: ${pb || 0};
     width: ${width || "100%"};
     column-gap: ${cg || "0"};
+    justify-content:${jc || "flex-start"};
+    align-items:${ai || "flex-start"};
   `}
 `;
 export const FlexContainer = styled.div`

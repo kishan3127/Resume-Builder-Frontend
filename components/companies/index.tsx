@@ -1,8 +1,14 @@
-import { useQuery, gql } from "@apollo/client";
-import styles from "../../styles/Home.module.css";
-import { Table } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
 import Link from "next/link";
+
+import { useQuery, gql } from "@apollo/client";
+import { EyeOutlined } from "@ant-design/icons";
+
+import { Table, Button } from "antd";
+import styles from "../../styles/Home.module.css";
+
+import DashboardTitle from "../../components/dashboardTitle";
+
+import { Text, FlexWrapper } from "../../screens/styles";
 
 const QUERY = gql`
   query Companies {
@@ -72,7 +78,13 @@ const CompaniesList = () => {
   ];
 
   return (
-    <div className={styles.grid}>
+    <div>
+      <DashboardTitle
+        buttonRequired={true}
+        title={"Companies"}
+        buttonLink="/dashboard/companies/new"
+        buttonTitle="Add New"
+      />
       <Table dataSource={companies} columns={columns} />
     </div>
   );

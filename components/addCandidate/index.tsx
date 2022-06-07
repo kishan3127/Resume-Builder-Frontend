@@ -2,6 +2,12 @@ import { useMutation, gql } from "@apollo/client";
 import styles from "../../styles/Home.module.css";
 import { Form, Input, Button } from "antd";
 
+import Link from "next/link";
+
+import { Text, FlexWrapper } from "../../screens/styles";
+
+import DashboardTitle from "../../components/dashboardTitle";
+
 const ADD_CANDIDATE = gql`
   mutation addEmployee($name: String!, $skill_intro: String!) {
     addEmployee(name: $name, skill_intro: $skill_intro) {
@@ -50,11 +56,10 @@ const AddCandidate = () => {
   };
   return (
     <div>
-      {error ? <div>{JSON.stringify(error, null, 4)}</div> : null}
+      <DashboardTitle buttonRequired={false} title={"Add Candidate"} />
       <Form
         form={form}
         onFinish={onFormSubmit}
-        //
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
       >
