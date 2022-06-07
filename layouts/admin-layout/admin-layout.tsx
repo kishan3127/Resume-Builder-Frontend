@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
-import { Layout, Menu, Image, Button } from "antd";
+import { Layout, Menu, Image } from "antd";
 import type { MenuProps } from "antd";
 import Link from "next/link";
+import { ContentArea } from "./admin-layout.styled";
 
-import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
-import {} from "antd";
+
+import AdminHeader from "../../components/admin-header";
 
 import {
   UserOutlined,
@@ -15,7 +16,7 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 
-const { Content, Sider, Header } = Layout;
+const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -74,28 +75,12 @@ const items: MenuItem[] = [
   getItem("Files", "9", <FileOutlined />),
 ];
 function AdminLayout({ children, route }: { children: any; route?: any }) {
-  const IS_LOGGED = "is_logged";
   const router = useRouter();
 
   const [collapsed, setCollapsed] = useState(true);
-  const [, , removeCookie] = useCookies([
-    "token",
-    "userId",
-    "email",
-    IS_LOGGED,
-  ]);
 
   const onCollapse = (collapsed) => {
     setCollapsed(collapsed);
-  };
-
-  const handleLogoutClick = () => {
-    removeCookie("token");
-    removeCookie("userId");
-    removeCookie("email");
-    removeCookie(IS_LOGGED);
-
-    router.push("/");
   };
 
   return (
@@ -108,19 +93,23 @@ function AdminLayout({ children, route }: { children: any; route?: any }) {
             collapsed={collapsed}
             onCollapse={onCollapse}
           >
-            <Header
+            <div
+              className=""
               style={{
-                background: "white",
+                margin: "0 auto",
+                textAlign: "center",
+                display: "block",
+                padding: "14px 0px",
               }}
             >
-              {" "}
               <Image
                 preview={false}
                 width={50}
                 alt="logo"
                 src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
               />
-            </Header>
+            </div>
+
             <Menu
               defaultSelectedKeys={[router.route]}
               mode="inline"
@@ -128,12 +117,7 @@ function AdminLayout({ children, route }: { children: any; route?: any }) {
             />
           </Sider>
           <Content>
-            <Header
-              style={{
-                background: "white",
-                padding: "0 18px",
-              }}
-            ></Header>
+            <AdminHeader />
             <div
               style={{
                 margin: "24px 16px 0",
@@ -141,8 +125,7 @@ function AdminLayout({ children, route }: { children: any; route?: any }) {
                 overflow: "initial",
               }}
             >
-              <Button onClick={() => handleLogoutClick()}>Logout</Button>
-              {children}
+              <ContentArea> {children}</ContentArea>
             </div>
           </Content>
         </Layout>

@@ -97,3 +97,8 @@ export const FixedWidthContainer = styled(Layout)`
   display: flex;
   justify-content: center;
 `;
+
+export const ContentArea = styled.div`
+  min-height: 500px;
+  padding: 20px;
+`;
