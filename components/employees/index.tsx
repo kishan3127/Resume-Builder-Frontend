@@ -3,13 +3,11 @@ import styles from "../../styles/Home.module.css";
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 
-import { Table, Button } from "antd";
+import { Table } from "antd";
 
 import { EyeOutlined } from "@ant-design/icons";
 
 import DashboardTitle from "../../components/dashboardTitle";
-
-import { Text, FlexWrapper } from "../../screens/styles";
 
 const QUERY = gql`
   query Employees {

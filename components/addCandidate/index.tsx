@@ -2,10 +2,6 @@ import { useMutation, gql } from "@apollo/client";
 import styles from "../../styles/Home.module.css";
 import { Form, Input, Button } from "antd";
 
-import Link from "next/link";
-
-import { Text, FlexWrapper } from "../../screens/styles";
-
 import DashboardTitle from "../../components/dashboardTitle";
 
 const ADD_CANDIDATE = gql`
@@ -19,7 +15,7 @@ const ADD_CANDIDATE = gql`
 `;
 
 const AddCandidate = () => {
-  const [addCandidate, { loading, error }] = useMutation(ADD_CANDIDATE);
+  const [addCandidate, { loading }] = useMutation(ADD_CANDIDATE);
   const [form] = Form.useForm();
 
   if (loading) {

@@ -3,12 +3,10 @@ import Link from "next/link";
 import { useQuery, gql } from "@apollo/client";
 import { EyeOutlined } from "@ant-design/icons";
 
-import { Table, Button } from "antd";
+import { Table } from "antd";
 import styles from "../../styles/Home.module.css";
 
 import DashboardTitle from "../../components/dashboardTitle";
-
-import { Text, FlexWrapper } from "../../screens/styles";
 
 const QUERY = gql`
   query Companies {
@@ -48,7 +46,7 @@ const CompaniesList = () => {
     console.error(error);
     return null;
   }
-  const companies = data.companies.slice(0, 100);
+  const companies = data.companies;
 
   const columns = [
     {
