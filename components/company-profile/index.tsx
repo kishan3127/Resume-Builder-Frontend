@@ -1,12 +1,9 @@
 import { useQuery, gql } from "@apollo/client";
-import Link from "next/link";
-import { Skeleton, Card, Avatar, Row, Col } from "antd";
+import { Skeleton, Row, Col } from "antd";
 
-// import Background from "../../asset/painter.svg";
-
+import Background from "../../asset/painter.svg";
+import CandidateCard from "../../components/candidate-card";
 import styled from "styled-components";
-
-const { Meta } = Card;
 
 const QUERY = gql`
   query company($id: ID) {
@@ -30,7 +27,9 @@ const LeftContainer = styled.div`
   top: 0;
   height: 100vh;
   width: 250px;
-  // background: url();
+  background: url(${Background.src}) #ff127f;
+  background-position: center center;
+  background-size: auto 140%;
 `;
 
 const RightContainer = styled.div`
@@ -88,19 +87,7 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
                       lg={{ span: 6 }}
                       key={employee.id}
                     >
-                      <Card>
-                        <Skeleton loading={loading} avatar active>
-                          <Link href={`/${company.id}/${employee.id}`}>
-                            <Meta
-                              avatar={
-                                <Avatar src="https://joeschmoe.io/api/v1/random" />
-                              }
-                              title={employee.name}
-                              description={employee.skill_intro}
-                            />
-                          </Link>
-                        </Skeleton>
-                      </Card>
+                      <CandidateCard company={company} employee={employee} />
                     </Col>
                   );
                 })}
