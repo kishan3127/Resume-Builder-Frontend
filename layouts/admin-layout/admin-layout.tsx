@@ -88,7 +88,7 @@ function AdminLayout({ children, route }: { children: any; route?: any }) {
   return (
     <>
       <Layout>
-        <Layout style={{ minHeight: "100vh" }}>
+        <Layout style={{ minHeight: "100vh", flexDirection: "row" }}>
           <Sider
             theme="light"
             collapsible

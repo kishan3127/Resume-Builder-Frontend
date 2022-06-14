@@ -101,4 +101,5 @@ export const FixedWidthContainer = styled(Layout)`
 export const ContentArea = styled.div`
   min-height: 500px;
   padding: 20px;
+  border-top: 2px solid #61a724;
 `;
