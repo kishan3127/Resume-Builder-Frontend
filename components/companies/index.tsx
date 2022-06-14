@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useQuery, gql } from "@apollo/client";
 import { EyeOutlined } from "@ant-design/icons";
 
-import { Table } from "antd";
+import { Table, Tag } from "antd";
+
 import styles from "../../styles/Home.module.css";
 
 import DashboardTitle from "../../components/dashboardTitle";
@@ -58,6 +59,15 @@ const CompaniesList = () => {
       title: "Active",
       dataIndex: "is_active",
       key: "is_active",
+      render: (is_active) => (
+        <>
+          {is_active ? (
+            <Tag color="#87d068"> Active </Tag>
+          ) : (
+            <Tag color="red">Not active</Tag>
+          )}
+        </>
+      ),
     },
     {
       title: "Preview",
