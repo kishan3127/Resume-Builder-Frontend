@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 
 import AdminHeader from "../../components/admin-header";
 
+import Logo from "../../asset/logo.png";
+
 import {
   UserOutlined,
   SettingOutlined,
@@ -106,7 +108,8 @@ function AdminLayout({ children, route }: { children: any; route?: any }) {
                 preview={false}
                 width={50}
                 alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                // src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
+                src={Logo.src}
               />
             </div>
 
