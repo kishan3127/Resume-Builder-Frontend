@@ -66,7 +66,7 @@ const CandidateCard = (props) => {
           </RotatedTitle>
           <CardContainer>
             <ImageCandidate
-              src="https://picsum.photos/200"
+              src="http://picsum.photos/200"
               alt={`${employee.name}'s image`}
               preview={false}
             />
