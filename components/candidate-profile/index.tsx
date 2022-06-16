@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { Collapse, Progress, Row, Col } from "antd";
+import { Collapse, Progress, Row, Col, Button } from "antd";
 import { useQuery, gql } from "@apollo/client";
 
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
@@ -507,6 +507,14 @@ const CandidateProfile = ({
                         <a href={`tel:${contact}`}> {contact}</a>
                       </p>
                     )}
+                    <Button
+                      style={{
+                        background: "var(--front-primary-color)",
+                        color: "white",
+                      }}
+                    >
+                      Select This Profile
+                    </Button>
                   </div>
                 </div>
               </Col>
