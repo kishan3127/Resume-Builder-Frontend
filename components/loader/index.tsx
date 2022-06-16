@@ -1,4 +1,4 @@
-import { Skeleton, Row, Col } from "antd";
+import { Skeleton } from "antd";
 import styled from "styled-components";
 
 const SkeletonLoader = styled(Skeleton)`

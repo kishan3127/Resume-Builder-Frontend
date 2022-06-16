@@ -5,8 +5,6 @@ import { EyeOutlined } from "@ant-design/icons";
 
 import { Table, Tag } from "antd";
 
-import styles from "../../styles/Home.module.css";
-
 import DashboardTitle from "../../components/dashboardTitle";
 import Loader from "components/loader";
 

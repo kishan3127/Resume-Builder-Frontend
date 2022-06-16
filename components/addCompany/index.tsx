@@ -1,5 +1,4 @@
 import { useMutation, gql, useQuery } from "@apollo/client";
-import styles from "../../styles/Home.module.css";
 import { Form, Input, Button, Select, Skeleton, Checkbox } from "antd";
 import { useRouter } from "next/router";
 

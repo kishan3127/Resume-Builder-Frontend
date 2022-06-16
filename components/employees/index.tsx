@@ -1,8 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
 import Link from "next/link";
 
-import { Table, Dropdown, Menu, Space, message } from "antd";
-import type { MenuProps } from "antd";
+import { Table, Dropdown, Menu, Space } from "antd";
+// import type { MenuProps } from "antd";
 
 import {
   EyeOutlined,
