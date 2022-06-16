@@ -9,7 +9,7 @@ const AdminHeader: React.FC = () => {
   const IS_LOGGED = "is_logged";
   const router = useRouter();
 
-  const [user] = useState("Edward");
+  const [user] = useState("admin");
 
   const [cookies, , removeCookie] = useCookies([
     "token",
