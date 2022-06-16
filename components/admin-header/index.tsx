@@ -11,7 +11,7 @@ const AdminHeader: React.FC = () => {
 
   const [user] = useState("Edward");
 
-  const [, , removeCookie] = useCookies([
+  const [cookies, , removeCookie] = useCookies([
     "token",
     "userId",
     "email",
@@ -56,7 +56,7 @@ const AdminHeader: React.FC = () => {
             }}
             size="large"
           >
-            {user}
+            {cookies?.email?.split("@")[0] || user}
           </Avatar>
         </Dropdown>
       </Header>

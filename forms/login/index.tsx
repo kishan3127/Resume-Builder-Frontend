@@ -46,22 +46,28 @@ export default function LoginForm() {
 
   const onFinish = async (values: any) => {
     console.log("values", values);
-    // const email = values.email;
-    // const password = values.password;
-
+    const email = values.username;
+    const password = values.password;
     try {
       // Call the api and get response in Response Params
-      const response = {
-        user: {
-          _id: 10,
-          email: "test@gmail.com",
-        },
-        tokenData: {
-          token: "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-          expiresIn: 1598631215.987,
-        },
-      };
-      postSuccessfullSignup(response);
+
+      if (email == "admin@gmail.com" && password == "admin@123") {
+        const response = {
+          user: {
+            _id: 10,
+            email: "admin@gmail.com",
+          },
+          tokenData: {
+            token: "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            expiresIn: 1598631215.987,
+          },
+        };
+        postSuccessfullSignup(response);
+
+        message.success("Logged in successfully");
+      } else {
+        throw "Not matching the credentials";
+      }
     } catch (err) {
       message.error(
         err?.response?.data?.message ??
