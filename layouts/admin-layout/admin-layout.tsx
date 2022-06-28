@@ -16,6 +16,7 @@ import {
   SettingOutlined,
   FileOutlined,
   TeamOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 
 const { Content, Sider } = Layout;
@@ -38,32 +39,25 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(
-    <Link href="/dashboard/employees">
-      <a>Users</a>
+    <Link href="/dashboard">
+      <a>Home</a>
     </Link>,
-    "/",
-    <UserOutlined />
+    "/dashboard",
+    <HomeOutlined />
   ),
   getItem(
     <Link href="/dashboard/employees">
+      <a>Users</a>
+    </Link>,
+    "/dashboard/employees",
+    <UserOutlined />
+  ),
+  getItem(
+    <Link href="/dashboard/companies">
       <a>Companies</a>
     </Link>,
     "/dashboard/companies",
-    <TeamOutlined />,
-    [
-      getItem(
-        <Link href="/dashboard/companies/new">
-          <a>Add</a>
-        </Link>,
-        "/dashboard/companies/new"
-      ),
-      getItem(
-        <Link href="/dashboard/companies">
-          <a>Listing</a>
-        </Link>,
-        "/dashboard/companies"
-      ),
-    ]
+    <TeamOutlined />
   ),
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "3"),

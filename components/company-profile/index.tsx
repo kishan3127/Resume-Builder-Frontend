@@ -65,7 +65,7 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
 
   if (error) {
     console.error(error);
-    return null;
+    return <p>Error Please try again</p>;
   }
 
   const company = data.company;

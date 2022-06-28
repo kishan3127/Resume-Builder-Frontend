@@ -6,6 +6,7 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Table, Tag } from "antd";
 
 import DashboardTitle from "../../components/dashboardTitle";
+import ErrorScreen from "../../components/ErrorScreen";
 import Loader from "components/loader";
 
 const QUERY = gql`
@@ -26,8 +27,7 @@ const CompaniesList = () => {
   }
 
   if (error) {
-    console.error(error);
-    return null;
+    return <ErrorScreen />;
   }
   const companies = data.companies;
 

@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 
 import DashboardTitle from "../../components/dashboardTitle";
+import ErrorScreen from "../../components/ErrorScreen";
 import Loader from "../../components/loader";
 import { Text } from "../../screens/styles";
 
@@ -38,7 +39,7 @@ const EmployeesList = () => {
 
   if (error) {
     console.error(error);
-    return null;
+    return <ErrorScreen />;
   }
   const employees = data.employees.slice(0, 100);
 
