@@ -1,3 +1,3 @@
-import NewCandidate from "../../../../screens/newCandidate";
+import NewEmployee from "../../../../screens/newEmployee";
 
-export default NewCandidate;
+export default NewEmployee;

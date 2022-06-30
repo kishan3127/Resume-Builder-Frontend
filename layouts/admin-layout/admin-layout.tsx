@@ -39,15 +39,15 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(
-    <Link href="/dashboard">
+    <Link href="/">
       <a>Home</a>
     </Link>,
-    "/dashboard",
+    "/" || "/dashboard",
     <HomeOutlined />
   ),
   getItem(
     <Link href="/dashboard/employees">
-      <a>Users</a>
+      <a>Employees</a>
     </Link>,
     "/dashboard/employees",
     <UserOutlined />

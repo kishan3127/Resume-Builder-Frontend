@@ -2,10 +2,10 @@ import { useMutation, gql } from "@apollo/client";
 import { Form, Input, Button } from "antd";
 import { useRouter } from "next/router";
 
-import DashboardTitle from "../../components/dashboardTitle";
-import Loader from "../../components/loader";
+import DashboardTitle from "../dashboardTitle";
+import Loader from "../loader";
 
-const ADD_CANDIDATE = gql`
+const ADD_EMPLOYEE = gql`
   mutation addEmployee($name: String!, $skill_intro: String!) {
     addEmployee(name: $name, skill_intro: $skill_intro) {
       name
@@ -15,8 +15,8 @@ const ADD_CANDIDATE = gql`
   }
 `;
 
-const AddCandidate = () => {
-  const [addCandidate, { loading, data }] = useMutation(ADD_CANDIDATE);
+const AddEmployee = () => {
+  const [addEmployee, { loading, data }] = useMutation(ADD_EMPLOYEE);
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -30,14 +30,14 @@ const AddCandidate = () => {
 
   const onFormSubmit = (values: any) => {
     const { name, skill_intro } = values;
-    addCandidate({
+    addEmployee({
       variables: { name, skill_intro },
     });
   };
 
   return (
     <div>
-      <DashboardTitle buttonRequired={false} title={"Add Candidate"} />
+      <DashboardTitle buttonRequired={false} title={"Add Employee"} />
       {data ? (
         <Loader />
       ) : (
@@ -49,11 +49,9 @@ const AddCandidate = () => {
         >
           <Form.Item
             name="name"
-            rules={[
-              { required: true, message: "Please input Candidate Name!" },
-            ]}
+            rules={[{ required: true, message: "Please input Employee Name!" }]}
           >
-            <Input placeholder="Candidate Name" />
+            <Input placeholder="Employee Name" />
           </Form.Item>
 
           <Form.Item
@@ -73,4 +71,4 @@ const AddCandidate = () => {
   );
 };
 
-export default AddCandidate;
+export default AddEmployee;

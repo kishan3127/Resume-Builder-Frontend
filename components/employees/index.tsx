@@ -50,7 +50,7 @@ const EmployeesList = () => {
         items={[
           {
             label: (
-              <Link href={`/candidate/${encodeURIComponent(id)}`}>
+              <Link href={`/employee/${encodeURIComponent(id)}`}>
                 <a>
                   <EyeOutlined /> <Space>Preview</Space>
                 </a>
@@ -60,7 +60,7 @@ const EmployeesList = () => {
           },
           {
             label: (
-              <Link href={`/candidate/${encodeURIComponent(id)}`}>
+              <Link href={`/employee/${encodeURIComponent(id)}`}>
                 <a>
                   <EditOutlined /> <Space>Edit</Space>
                 </a>
@@ -70,7 +70,7 @@ const EmployeesList = () => {
           },
           {
             label: (
-              <Link href={`/candidate/${encodeURIComponent(id)}`}>
+              <Link href={`/employee/${encodeURIComponent(id)}`}>
                 <a>
                   <DeleteOutlined /> <Space>Delete</Space>
                 </a>
@@ -98,7 +98,7 @@ const EmployeesList = () => {
       title: "Department",
       key: "id",
       dataIndex: "id",
-      render: (id) => (
+      render: () => (
         <>
           <Text fl="unset" color="#121212">
             Frontend Developer
@@ -130,7 +130,7 @@ const EmployeesList = () => {
     <div>
       <DashboardTitle
         buttonRequired={true}
-        title={"Candidates"}
+        title={"Employees"}
         buttonLink="/dashboard/employees/new"
         buttonTitle="Add New"
       />

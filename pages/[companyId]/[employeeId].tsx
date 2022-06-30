@@ -1,4 +1,4 @@
-import CandidateScreen from "../../screens/candidate";
+import EmployeeScreen from "../../screens/employee";
 import { staticData } from "../../utils/constants";
 import { IncomingMessage, ServerResponse } from "http";
 
@@ -6,12 +6,12 @@ type GetInitalProps = {
   res?: ServerResponse;
   req?: IncomingMessage;
   query?: {
-    candidateId?: Number;
+    employeeId?: Number;
   };
 };
 
 export const getServerSideProps = async ({ query }: GetInitalProps) => {
-  const candidateId = query?.candidateId || null;
+  const employeeId = query?.employeeId || null;
 
   let newProps = {};
 
@@ -21,14 +21,14 @@ export const getServerSideProps = async ({ query }: GetInitalProps) => {
       ...newProps,
       error: false,
       data: apiResponse ?? [],
-      candidateId,
+      employeeId,
     };
   } catch (error) {
     newProps = {
       ...newProps,
       data: [],
       error: true,
-      candidateId,
+      employeeId,
     };
   }
 
@@ -36,4 +36,4 @@ export const getServerSideProps = async ({ query }: GetInitalProps) => {
     props: newProps,
   };
 };
-export default CandidateScreen;
+export default EmployeeScreen;

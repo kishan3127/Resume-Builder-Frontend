@@ -7,7 +7,7 @@ import Loader from "../loader";
 
 const { Option } = Select;
 
-const ADD_CANDIDATE = gql`
+const ADD_EMPLOYEE = gql`
   mutation addEmployee(
     $name: String!
     $is_active: Boolean!
@@ -29,7 +29,7 @@ const GET_EMPLOYEES_LIST = gql`
 `;
 
 const AddCompany = () => {
-  const [addCompany, { loading, data }] = useMutation(ADD_CANDIDATE);
+  const [addCompany, { loading, data }] = useMutation(ADD_EMPLOYEE);
   const employeesList = useQuery(GET_EMPLOYEES_LIST);
   const [form] = Form.useForm();
 

@@ -2,7 +2,7 @@ import { useQuery, gql } from "@apollo/client";
 import { Skeleton, Row, Col } from "antd";
 
 import BackgroundImageLanding from "../../asset/land-bg.jpg";
-import CandidateCard from "../../components/candidate-card";
+import EmployeeCard from "../../components/employee-card";
 import styled from "styled-components";
 
 import { Text } from "../../screens/styles";
@@ -113,13 +113,13 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
                       lg={{ span: 8 }}
                       key={employee.id}
                     >
-                      <CandidateCard company={company} employee={employee} />
+                      <EmployeeCard company={company} employee={employee} />
                     </Col>
                   );
                 })}
               </Row>
             ) : (
-              "No Candidate is assigned to this company"
+              "No Employee is assigned to this company"
             )}
           </div>
 

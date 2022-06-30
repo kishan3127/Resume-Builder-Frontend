@@ -29,7 +29,7 @@ const CardContainer = styled.div`
     overflow: hidden;
   }
 `;
-const ImageCandidate = styled(Image)`
+const ImageEmployee = styled(Image)`
   border-radius: 55px 5px 55px 5px;
   margin: 0 auto 20px;
   display: block;
@@ -48,7 +48,7 @@ const RotatedTitle = styled(Text)`
   backface-visibility: hidden;
 `;
 
-const CandidateCard = (props) => {
+const EmployeeCard = (props) => {
   const { employee, company } = props;
   return (
     <>
@@ -65,7 +65,7 @@ const CandidateCard = (props) => {
             {employee.name}
           </RotatedTitle>
           <CardContainer>
-            <ImageCandidate
+            <ImageEmployee
               src="http://picsum.photos/200"
               alt={`${employee.name}'s image`}
               preview={false}
@@ -118,4 +118,4 @@ const CandidateCard = (props) => {
   );
 };
 
-export default CandidateCard;
+export default EmployeeCard;

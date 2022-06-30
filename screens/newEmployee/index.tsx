@@ -1,15 +1,15 @@
 import React from "react";
-import AddCandidate from "../../components/addCandidate";
+import AddEmployee from "../../components/addEmployee";
 import AdminLayout from "../../layouts/admin-layout";
 
-const NewCandidate = () => {
+const NewEmployee = () => {
   return (
     <>
       <AdminLayout>
-        <AddCandidate />
+        <AddEmployee />
       </AdminLayout>
     </>
   );
 };
 
-export default NewCandidate;
+export default NewEmployee;

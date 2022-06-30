@@ -82,7 +82,7 @@ export const staticData = {
     },
   ],
 };
-export const CandidateProfiles = [
+export const EmployeeProfiles = [
   {
     name: "Kishan Gopal Modi",
     image:

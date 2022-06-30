@@ -40,7 +40,7 @@ const DashboardScreen = (props) => {
             <Link href={"./dashboard/employees"}>
               <div className="grid-layout-item">
                 <UserOutlined />
-                <p>Candidates</p>
+                <p>Employees</p>
               </div>
             </Link>
           </GridItem>

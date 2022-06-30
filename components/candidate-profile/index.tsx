@@ -49,7 +49,7 @@ type Intro = {
   description: string;
 };
 
-type CandidateProfile = {
+type EmployeeProfileType = {
   image: string;
   name: string;
   email: string;
@@ -325,15 +325,15 @@ const AccordionHeaderExprience = (data: { role: String }) => {
   );
 };
 
-const CandidateProfile = ({
-  candidateId,
+const EmployeeProfile = ({
+  employeeId,
   staticData,
 }: {
-  candidateId: string;
-  staticData: CandidateProfile;
+  employeeId: string;
+  staticData: EmployeeProfileType;
 }) => {
   const { data, loading, error } = useQuery(GET_EMPLOYEE, {
-    variables: { id: candidateId },
+    variables: { id: employeeId },
   });
 
   if (loading) {
@@ -589,4 +589,4 @@ const CandidateProfile = ({
   );
 };
 
-export default CandidateProfile;
+export default EmployeeProfile;
