@@ -42,7 +42,7 @@ const items: MenuItem[] = [
     <Link href="/">
       <a>Home</a>
     </Link>,
-    "/" || "/dashboard",
+    "/" || "./dashboard",
     <HomeOutlined />
   ),
   getItem(
