@@ -1,12 +1,13 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+
 const httpLink = createHttpLink({
   uri: process.env.GRAPHQL_CLIENT_URL,
 });
 
 const authLink = setContext((_, { headers }) => {
-console.log(document.cookie['token']);
+
   return {
     headers: {
       ...headers,
