@@ -32,8 +32,7 @@ export default function LoginForm() {
     IS_LOGGED,
   ]);
 
-  const [loginEmployees, { loading, data, error }] =
-    useMutation(LOGIN_EMPLOYEE);
+  const [loginEmployees, { data }] = useMutation(LOGIN_EMPLOYEE);
 
   useEffect(() => {
     router.prefetch("/signup");
@@ -138,8 +137,6 @@ export default function LoginForm() {
             placeholder="Password"
           />
         </Form.Item>
-        {error && error.message}
-
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>

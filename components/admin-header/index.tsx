@@ -22,7 +22,7 @@ const AdminHeader: React.FC = () => {
 
   useEffect(() => {
     setUser(cookies?.name?.split(" ")[0]);
-  }, []);
+  }, [cookies?.name]);
   const handleLogoutClick = () => {
     removeCookie("token");
     removeCookie("userId");
