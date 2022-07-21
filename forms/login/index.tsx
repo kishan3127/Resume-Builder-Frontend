@@ -4,6 +4,7 @@ import { MouseEvent, useEffect } from "react";
 import { Form, Input, Button, Checkbox, Divider, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
+import { useMutation, gql } from "@apollo/client";
 
 import { Wrapper } from "./login.styled";
 import { Text } from "../../screens/styles";
@@ -12,28 +13,51 @@ export default function LoginForm() {
   const router = useRouter();
   const IS_LOGGED = "is_logged";
 
-  const [, setCookie] = useCookies(["token", "userId", "email", IS_LOGGED]);
+  const LOGIN_EMPLOYEE = gql`
+    mutation LoginEmployee($email: String!, $password: String!) {
+      loginEmployee(loginInput: { email: $email, password: $password }) {
+        name
+        token
+        email
+        _id
+      }
+    }
+  `;
+
+  const [, setCookie] = useCookies([
+    "token",
+    "userId",
+    "email",
+    "name",
+    IS_LOGGED,
+  ]);
+
+  const [loginEmployees, { loading, data, error }] =
+    useMutation(LOGIN_EMPLOYEE);
 
   useEffect(() => {
     router.prefetch("/signup");
   }, []);
 
-  const postSuccessfullSignup = (apiResponse: any) => {
-    const signupResponse = apiResponse ?? {};
+  const postSuccessfullSignup = async (apiResponse: any) => {
+    const { token, name, email, _id } = apiResponse ?? {};
 
     const expiry = add(new Date(), {
-      seconds: signupResponse?.tokenData?.expiresIn,
+      seconds: 1000 * 60 * 60 * 2,
     });
 
-    setCookie("token", signupResponse?.tokenData?.token, {
+    setCookie("token", token, {
       expires: expiry,
     });
 
-    setCookie("userId", signupResponse?.user?._id, {
+    setCookie("userId", _id, {
       expires: expiry,
     });
 
-    setCookie("email", signupResponse?.user?.email, {
+    setCookie("email", email, {
+      expires: expiry,
+    });
+    setCookie("name", name, {
       expires: expiry,
     });
 
@@ -49,27 +73,25 @@ export default function LoginForm() {
     const email = values.username;
     const password = values.password;
     try {
-      // Call the api and get response in Response Params
+      loginEmployees({
+        variables: {
+          email,
+          password,
+        },
+        onCompleted(data) {
+          console.log(data.loginEmployee);
+          postSuccessfullSignup(data.loginEmployee);
+        },
+        onError(error) {
+          message.error(
+            error.message ?? "Something went wrong, please try again!"
+          );
+        },
+      });
 
-      if (email == "admin@gmail.com" && password == "admin@123") {
-        const response = {
-          user: {
-            _id: 10,
-            email: "admin@gmail.com",
-            name: "Kishan Gopal Modi",
-          },
-          tokenData: {
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjJkNzhkYTFlZjZhMTdiMWE2YWFhOTFlIiwiZW1haWwiOiJraXNoYW4ubW9kaUBnbWFpbC5jb20iLCJpYXQiOjE2NTgzODE5MDcsImV4cCI6MTY1ODM4OTEwN30.Bkl9HdBsnMDtZVv8zNbje2ovNgxhhxH7A2M6oXkj8Oo",
-            expiresIn: 1598631215.987,
-          },
-        };
-        postSuccessfullSignup(response);
+      // postSuccessfullSignup(data);
 
-        message.success("Logged in successfully");
-      } else {
-        throw "Not matching the credentials";
-      }
+      if (data) message.success("Logged in successfully");
     } catch (err) {
       message.error(
         err?.response?.data?.message ??
@@ -116,6 +138,8 @@ export default function LoginForm() {
             placeholder="Password"
           />
         </Form.Item>
+        {error && error.message}
+
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>

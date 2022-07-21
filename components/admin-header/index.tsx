@@ -1,5 +1,5 @@
 import { Avatar, Layout, Dropdown } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 
@@ -10,7 +10,7 @@ const AdminHeader: React.FC = () => {
 
   const router = useRouter();
 
-  const [user] = useState("admin");
+  const [user, setUser] = useState(null);
 
   const [cookies, , removeCookie] = useCookies([
     "token",
@@ -20,6 +20,9 @@ const AdminHeader: React.FC = () => {
     IS_LOGGED,
   ]);
 
+  useEffect(() => {
+    setUser(cookies?.name?.split(" ")[0]);
+  }, []);
   const handleLogoutClick = () => {
     removeCookie("token");
     removeCookie("userId");
@@ -58,7 +61,7 @@ const AdminHeader: React.FC = () => {
             }}
             size="large"
           >
-            {cookies?.email?.split("@")[0] || user}
+            {user}
           </Avatar>
         </Dropdown>
       </Header>
