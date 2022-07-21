@@ -66,6 +66,10 @@ const CompaniesList = () => {
     return <Loader />;
   }
 
+  if (loadingDelete) {
+    return <Loader />;
+  }
+
   if (error) {
     return <ErrorScreen />;
   }
