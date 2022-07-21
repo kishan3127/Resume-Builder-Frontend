@@ -8,28 +8,46 @@ import Loader from "../loader";
 const { Option } = Select;
 
 const ADD_EMPLOYEE = gql`
-  mutation addEmployee(
+  mutation CreateCompany(
     $name: String!
     $is_active: Boolean!
-    $employeesId: [ID]
+    $employeesId: [String]
   ) {
-    addCompany(name: $name, is_active: $is_active, employeesId: $employeesId) {
+    createCompany(
+      companyInput: {
+        name: $name
+        is_active: $is_active
+        employeesId: $employeesId
+      }
+    ) {
       name
       is_active
     }
   }
 `;
 const GET_EMPLOYEES_LIST = gql`
-  query employee {
-    employees {
+  query Employees {
+    getEmployees {
+      _id
       name
-      id
+      skill_intro
     }
   }
 `;
-
+const GET_COMPANIES = gql`
+  query Companies {
+    getCompanies {
+      _id
+      name
+      is_active
+    }
+  }
+`;
 const AddCompany = () => {
-  const [addCompany, { loading, data }] = useMutation(ADD_EMPLOYEE);
+  const [addCompany, { loading, data }] = useMutation(ADD_EMPLOYEE, {
+    refetchQueries: [{ query: GET_COMPANIES }, "Companies"],
+  });
+
   const employeesList = useQuery(GET_EMPLOYEES_LIST);
   const [form] = Form.useForm();
 
@@ -92,10 +110,10 @@ const AddCompany = () => {
                     .includes(input.toLowerCase())
                 }
               >
-                {employeesList?.data?.employees ? (
-                  employeesList?.data?.employees.map((employee) => {
+                {employeesList?.data?.getEmployees ? (
+                  employeesList?.data?.getEmployees.map((employee) => {
                     return (
-                      <Option key={employee.id} value={employee.id}>
+                      <Option key={employee._id} value={employee._id}>
                         {employee.name}
                       </Option>
                     );

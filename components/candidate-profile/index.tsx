@@ -17,10 +17,12 @@ import Loader from "../../components/loader";
 const { Panel } = Collapse;
 
 const GET_EMPLOYEE = gql`
-  query employee($id: ID) {
-    employee(id: $id) {
+  query employee($_id: ID!) {
+    getEmployee(_id: $_id) {
       name
-      id
+      email
+      skill_intro
+      _id
     }
   }
 `;
@@ -333,7 +335,7 @@ const EmployeeProfile = ({
   staticData: EmployeeProfileType;
 }) => {
   const { data, loading, error } = useQuery(GET_EMPLOYEE, {
-    variables: { id: employeeId },
+    variables: { _id: employeeId },
   });
 
   if (loading) {
@@ -344,9 +346,8 @@ const EmployeeProfile = ({
     console.error(error);
     return null;
   }
-  const { name } = data?.employee;
-  const { email, contact, intro, educations, projects, skills, skill_intro } =
-    staticData;
+  const { name, email, skill_intro } = data?.getEmployee;
+  const { contact, intro, educations, projects, skills } = staticData;
   const firstName = name.split(" ")[0] || "Name Here";
   const [first] = firstName.split(" ")[0] || "N";
   return (

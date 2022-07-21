@@ -1,7 +1,8 @@
-import { useQuery, gql } from "@apollo/client";
+import { useState } from "react";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import Link from "next/link";
 
-import { Table, Dropdown, Menu, Space } from "antd";
+import { Table, Dropdown, Menu, Space, Button, Modal } from "antd";
 // import type { MenuProps } from "antd";
 
 import {
@@ -16,10 +17,19 @@ import ErrorScreen from "../../components/ErrorScreen";
 import Loader from "../../components/loader";
 import { Text } from "../../screens/styles";
 
-const QUERY = gql`
+const GET_EMPLOYEES = gql`
   query Employees {
-    employees {
-      id
+    getEmployees {
+      _id
+      name
+      skill_intro
+    }
+  }
+`;
+const DELETE_EMPLOYEE = gql`
+  mutation DeleteEmployee($_id: ID!) {
+    deleteEmployee(_id: $_id) {
+      _id
       name
       skill_intro
     }
@@ -31,9 +41,45 @@ const QUERY = gql`
 // };
 
 const EmployeesList = () => {
-  const { data, loading, error } = useQuery(QUERY);
+  const { data, loading, error } = useQuery(GET_EMPLOYEES);
+  const [deleteEmployee, { loading: loadingDelete }] = useMutation(
+    DELETE_EMPLOYEE,
+    {
+      refetchQueries: [{ query: GET_EMPLOYEES }, "Employees"],
+    }
+  );
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedEmployeeId, setEmployeeId] = useState(null);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    deleteEmployee({
+      variables: {
+        _id: selectedEmployeeId,
+      },
+    });
+  };
+
+  const handleCancel = () => {
+    setEmployeeId(null);
+    setIsModalVisible(false);
+  };
+
+  const deleteEmoloyee = (id) => {
+    setEmployeeId(id);
+    showModal();
+  };
 
   if (loading) {
+    return <Loader />;
+  }
+
+  if (loadingDelete) {
     return <Loader />;
   }
 
@@ -41,7 +87,7 @@ const EmployeesList = () => {
     console.error(error);
     return <ErrorScreen />;
   }
-  const employees = data.employees.slice(0, 100);
+  const employees = data.getEmployees.slice(0, 100);
 
   const ActionOptions = ({ id }) => {
     return (
@@ -70,11 +116,9 @@ const EmployeesList = () => {
           },
           {
             label: (
-              <Link href={`/employee/${encodeURIComponent(id)}`}>
-                <a>
-                  <DeleteOutlined /> <Space>Delete</Space>
-                </a>
-              </Link>
+              <Button type="text" onClick={() => deleteEmoloyee(id)}>
+                <DeleteOutlined /> <Space>Delete</Space>
+              </Button>
             ),
             key: "delete",
           },
@@ -96,7 +140,7 @@ const EmployeesList = () => {
     },
     {
       title: "Department",
-      key: "id",
+      key: "_id",
       dataIndex: "id",
       render: () => (
         <>
@@ -109,12 +153,12 @@ const EmployeesList = () => {
     {
       title: "",
       key: "action",
-      dataIndex: "id",
-      render: (id) => (
+      dataIndex: "_id",
+      render: (_id: String) => (
         <Dropdown
           trigger={["click"]}
           placement="bottom"
-          overlay={<ActionOptions id={id} />}
+          overlay={<ActionOptions id={_id} />}
         >
           <a onClick={(e) => e.preventDefault()}>
             <Space>
@@ -134,7 +178,15 @@ const EmployeesList = () => {
         buttonLink="/dashboard/employees/new"
         buttonTitle="Add New"
       />
-      <Table dataSource={employees} columns={columns} />
+      <Table rowKey="_id" dataSource={employees} columns={columns} />
+      <Modal
+        title="Delete emoloyee"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        Are you sure you want to delete the emoloyee?
+      </Modal>
     </div>
   );
 };

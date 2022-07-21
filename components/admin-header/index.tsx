@@ -7,6 +7,7 @@ const { Header } = Layout;
 
 const AdminHeader: React.FC = () => {
   const IS_LOGGED = "is_logged";
+
   const router = useRouter();
 
   const [user] = useState("admin");
@@ -15,6 +16,7 @@ const AdminHeader: React.FC = () => {
     "token",
     "userId",
     "email",
+    "name",
     IS_LOGGED,
   ]);
 
@@ -22,8 +24,8 @@ const AdminHeader: React.FC = () => {
     removeCookie("token");
     removeCookie("userId");
     removeCookie("email");
+    removeCookie("name");
     removeCookie(IS_LOGGED);
-
     router.push("/");
   };
 

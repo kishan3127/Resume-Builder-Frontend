@@ -52,7 +52,7 @@ const EmployeeCard = (props) => {
   const { employee, company } = props;
   return (
     <>
-      <Link href={`/${company.id}/${employee.id}`}>
+      <Link href={`/${company._id}/${employee._id}`}>
         <CardLayout>
           <RotatedTitle
             fs="20px"

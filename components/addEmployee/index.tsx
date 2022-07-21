@@ -6,17 +6,40 @@ import DashboardTitle from "../dashboardTitle";
 import Loader from "../loader";
 
 const ADD_EMPLOYEE = gql`
-  mutation addEmployee($name: String!, $skill_intro: String!) {
-    addEmployee(name: $name, skill_intro: $skill_intro) {
+  mutation createEmployee(
+    $name: String!
+    $skill_intro: String
+    $email: String!
+  ) {
+    createEmployee(
+      employeeInput: {
+        name: $name
+        skill_intro: $skill_intro
+        email: $email
+        password: "sun123ARC"
+      }
+    ) {
       name
       skill_intro
-      id
+      email
+      _id
+    }
+  }
+`;
+const GET_EMPLOYEES = gql`
+  query Employees {
+    getEmployees {
+      _id
+      name
+      skill_intro
     }
   }
 `;
 
 const AddEmployee = () => {
-  const [addEmployee, { loading, data }] = useMutation(ADD_EMPLOYEE);
+  const [createEmployee, { loading, data }] = useMutation(ADD_EMPLOYEE, {
+    refetchQueries: [{ query: GET_EMPLOYEES }, "Employees"],
+  });
   const [form] = Form.useForm();
   const router = useRouter();
 
@@ -29,9 +52,9 @@ const AddEmployee = () => {
   }
 
   const onFormSubmit = (values: any) => {
-    const { name, skill_intro } = values;
-    addEmployee({
-      variables: { name, skill_intro },
+    const { name, skill_intro, email } = values;
+    createEmployee({
+      variables: { name, skill_intro, email },
     });
   };
 
@@ -55,8 +78,21 @@ const AddEmployee = () => {
           </Form.Item>
 
           <Form.Item
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: "email",
+                message: "Please input the correct Email!",
+              },
+            ]}
+          >
+            <Input placeholder="Employee Email" />
+          </Form.Item>
+
+          <Form.Item
             name="skill_intro"
-            rules={[{ required: true, message: "Please input Skill Intro!" }]}
+            rules={[{ required: false, message: "Please input Skill Intro!" }]}
           >
             <Input placeholder="Skill Intro" />
           </Form.Item>

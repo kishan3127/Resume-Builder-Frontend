@@ -8,13 +8,14 @@ import styled from "styled-components";
 import { Text } from "../../screens/styles";
 
 const QUERY = gql`
-  query company($id: ID) {
-    company(id: $id) {
+  query company($_id: ID!) {
+    getCompany(_id: $_id) {
       name
-      id
+      _id
       employees {
+        email
         name
-        id
+        _id
         skill_intro
       }
     }
@@ -56,7 +57,7 @@ const CompanyProfileContainer = styled.div`
 
 const CompanyProfile = ({ companyId }: { companyId: string }) => {
   const { data, loading, error } = useQuery(QUERY, {
-    variables: { id: companyId },
+    variables: { _id: companyId },
   });
 
   if (loading) {
@@ -68,7 +69,7 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
     return <p>Error Please try again</p>;
   }
 
-  const company = data.company;
+  const company = data.getCompany;
 
   return (
     <CompanyProfileContainer>
@@ -111,7 +112,7 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
                       xs={{ span: 24 }}
                       sm={{ span: 12 }}
                       lg={{ span: 8 }}
-                      key={employee.id}
+                      key={employee._id}
                     >
                       <EmployeeCard company={company} employee={employee} />
                     </Col>
