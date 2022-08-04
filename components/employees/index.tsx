@@ -106,7 +106,7 @@ const EmployeesList = () => {
           },
           {
             label: (
-              <Link href={`/employee/${encodeURIComponent(id)}`}>
+              <Link href={`/edit/employee/${encodeURIComponent(id)}`}>
                 <a>
                   <EditOutlined /> <Space>Edit</Space>
                 </a>
