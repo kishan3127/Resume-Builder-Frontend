@@ -26,7 +26,9 @@ const authLink = setContext((res, { headers }) => {
 // const addptor = from([httpLink, errorLink]);
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
   onError: ({ graphQLErrors, networkError, operation, forward }) => {
     console.log(graphQLErrors, networkError, operation, forward);
     if (graphQLErrors) {

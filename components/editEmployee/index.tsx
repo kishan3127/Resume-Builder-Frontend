@@ -2,24 +2,38 @@ import DashboardTitle from "../dashboardTitle";
 import Loader from "../loader";
 
 import { useMutation, gql, useQuery } from "@apollo/client";
-import { Form, Input, Button, Checkbox, Row, Col, Slider } from "antd";
+import { Form, Button, Row, Col } from "antd";
 import EmployeeForm from "../../forms/employee";
 import { message } from "antd";
 
-const { TextArea } = Input;
-
-import { Text } from "../../screens/styles";
-
+type ProjectInput = {
+  role: String;
+  description: String;
+};
 const EDIT_EMPLOYEE = gql`
   mutation EditEmployee(
     $_id: ID!
     $name: String!
+    $contact: String
     $email: String!
     $skill_intro: String
+    $intro: IntroInput
+    $educations: [EducationInput]
+    $projects: [ProjectInput]
+    $skills: [SkillInput]
   ) {
     updateEmployee(
       _id: $_id
-      employeeInput: { name: $name, email: $email, skill_intro: $skill_intro }
+      employeeInput: {
+        contact: $contact
+        name: $name
+        email: $email
+        skill_intro: $skill_intro
+        skills: $skills
+        projects: $projects
+        educations: $educations
+        intro: $intro
+      }
     ) {
       name
       _id
@@ -91,23 +105,20 @@ function EmployeeEditComponent({ employeeId }) {
 
   const onFormSubmit = (values: any) => {
     console.log(values);
-    // const { name, email, skill_intro } = values;
-    // updateEmployee({
-    //   variables: {
-    //     _id: employeeId,
-    //     name,
-    //     email,
-    //     skill_intro,
-    //   },
-    //   onCompleted(data) {
-    //     message.success("Successfully Updated");
-    //   },
-    //   onError(error) {
-    //     message.error(
-    //       error.message ?? "Something went wrong, please try again!"
-    //     );
-    //   },
-    // });
+    updateEmployee({
+      variables: {
+        _id: employeeId,
+        ...values,
+      },
+      onCompleted(data) {
+        message.success("Successfully Updated");
+      },
+      onError(error) {
+        message.error(
+          error.message ?? "Something went wrong, please try again!"
+        );
+      },
+    });
   };
 
   const [form] = Form.useForm();

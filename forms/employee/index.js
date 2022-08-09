@@ -231,7 +231,7 @@ function EmployeeForm() {
                             name={[field.name, "course"]}
                             rules={[
                               {
-                                required: false,
+                                required: true,
                                 message: "Course Required",
                               },
                             ]}
@@ -248,7 +248,7 @@ function EmployeeForm() {
                             name={[field.name, "description"]}
                             rules={[
                               {
-                                required: false,
+                                required: true,
                                 message: "Course Description required",
                               },
                             ]}
@@ -338,7 +338,10 @@ function EmployeeForm() {
                             label="Skill Name"
                             name={[field.name, "name"]}
                             rules={[
-                              { required: false, message: "Name Required" },
+                              {
+                                required: true,
+                                message: "Skill name required",
+                              },
                             ]}
                           >
                             <Input />
@@ -353,7 +356,7 @@ function EmployeeForm() {
                             name={[field.name, "percentage"]}
                             rules={[
                               {
-                                required: false,
+                                required: true,
                                 message: "Skill percentage required",
                               },
                             ]}
@@ -367,6 +370,7 @@ function EmployeeForm() {
                           <Form.Item
                             label="Show Skill?"
                             {...field}
+                            valuePropName="checked"
                             name={[field.name, "show"]}
                           >
                             <Checkbox />

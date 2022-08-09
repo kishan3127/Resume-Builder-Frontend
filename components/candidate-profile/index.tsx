@@ -332,7 +332,7 @@ function callback(key) {
 const AccordionHeaderEducation = (data: { course: String }) => {
   return (
     <>
-      <div className="">{data.course}</div>
+      <div className="">{data?.course}</div>
     </>
   );
 };
@@ -471,16 +471,19 @@ const EmployeeProfile = ({
                       isActive ? <EyeOutlined /> : <EyeInvisibleOutlined />
                     }
                   >
-                    {educations?.map((education: Education, index: number) => {
-                      return (
-                        <Panel
-                          key={index}
-                          header={AccordionHeaderEducation(education)}
-                        >
-                          <p>{education?.description}</p>
-                        </Panel>
-                      );
-                    })}
+                    {educations &&
+                      educations?.map((education: Education, index: number) => {
+                        return (
+                          education != null && (
+                            <Panel
+                              key={index}
+                              header={AccordionHeaderEducation(education)}
+                            >
+                              <p>{education?.description}</p>
+                            </Panel>
+                          )
+                        );
+                      })}
                   </CollapseCustom>
                 </section>
                 <section id="exprience">
