@@ -2,7 +2,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { useQuery, gql, useMutation } from "@apollo/client";
-import { EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import { Table, Tag, Modal, Space, Button } from "antd";
 
@@ -96,10 +96,10 @@ const CompaniesList = () => {
       ),
     },
     {
-      title: "Preview",
-      key: "_id",
+      title: "Actions",
+      key: "actions",
       dataIndex: "_id",
-      render: (_id: String) => (
+      render: (_id: string) => (
         <>
           <Link href={`/${_id}`}>
             <a>
@@ -109,6 +109,11 @@ const CompaniesList = () => {
           <Button type="text" onClick={() => deleteCompanyHandle(_id)}>
             <DeleteOutlined /> <Space>Delete</Space>
           </Button>
+          <Link href={`/edit/company/${encodeURIComponent(_id)}`}>
+            <a>
+              <EditOutlined /> <Space>Edit</Space>
+            </a>
+          </Link>
         </>
       ),
     },

@@ -1,4 +1,4 @@
-import CompanyEditScreen from "../../../screens/employee";
+import CompanyEditScreen from "../../../screens/company/editCompnayScreen";
 import { IncomingMessage, ServerResponse } from "http";
 
 type GetInitalProps = {

@@ -1,11 +1,10 @@
 import { useMutation, gql, useQuery } from "@apollo/client";
-import { Form, Input, Button, Select, Skeleton, Checkbox } from "antd";
+import { Form } from "antd";
+import CompanyForm from "forms/company";
 import { useRouter } from "next/router";
 
 import DashboardTitle from "../dashboardTitle";
 import Loader from "../loader";
-
-const { Option } = Select;
 
 const ADD_EMPLOYEE = gql`
   mutation CreateCompany(
@@ -20,20 +19,13 @@ const ADD_EMPLOYEE = gql`
         employeesId: $employeesId
       }
     ) {
+      _id
       name
       is_active
     }
   }
 `;
-const GET_EMPLOYEES_LIST = gql`
-  query Employees {
-    getEmployees {
-      _id
-      name
-      skill_intro
-    }
-  }
-`;
+
 const GET_COMPANIES = gql`
   query Companies {
     getCompanies {
@@ -48,13 +40,13 @@ const AddCompany = () => {
     refetchQueries: [{ query: GET_COMPANIES }, "Companies"],
   });
 
-  const employeesList = useQuery(GET_EMPLOYEES_LIST);
   const [form] = Form.useForm();
 
   const router = useRouter();
 
   if (data) {
-    router.push("/dashboard/companies/");
+    console.log(data, "datadatadata");
+    router.push(`/edit/company/${data.createCompany._id}`);
   }
 
   if (loading) {
@@ -62,20 +54,11 @@ const AddCompany = () => {
   }
 
   const onFormSubmit = (values: any) => {
-    const { name, is_active, selectedEmoloyees } = values;
-
-    // console.log(name, is_active ?? false, selectedEmoloyees, "Values");
     addCompany({
       variables: {
-        name,
-        is_active: is_active ?? false,
-        employeesId: selectedEmoloyees,
+        ...values,
       },
     });
-  };
-
-  const handleChange = (value: string | string[]) => {
-    console.log(`Selected: ${value}`);
   };
 
   return (
@@ -90,52 +73,7 @@ const AddCompany = () => {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
         >
-          <Form.Item
-            name="name"
-            rules={[{ required: true, message: "Please input Company Name!" }]}
-          >
-            <Input placeholder="Company Name" />
-          </Form.Item>
-          <Form.Item name="selectedEmoloyees">
-            {!employeesList?.loading ? (
-              <Select
-                showSearch
-                mode="tags"
-                placeholder="Please select the employees"
-                optionFilterProp="children"
-                onChange={handleChange}
-                filterOption={(input, option) =>
-                  (option!.children as unknown as string)
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              >
-                {employeesList?.data?.getEmployees ? (
-                  employeesList?.data?.getEmployees.map((employee) => {
-                    return (
-                      <Option key={employee._id} value={employee._id}>
-                        {employee.name}
-                      </Option>
-                    );
-                  })
-                ) : (
-                  <Option key={"no_input"}>No Employees Found</Option>
-                )}
-              </Select>
-            ) : (
-              <Skeleton.Input active={true} />
-            )}
-          </Form.Item>
-
-          <Form.Item name="is_active" valuePropName="checked">
-            <Checkbox>Active?</Checkbox>
-          </Form.Item>
-
-          <Form.Item>
-            <Button htmlType="submit" type="primary">
-              Submit
-            </Button>
-          </Form.Item>
+          <CompanyForm />
         </Form>
       )}
     </>
