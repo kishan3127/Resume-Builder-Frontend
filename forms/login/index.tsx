@@ -11,11 +11,10 @@ import { Text } from "../../screens/styles";
 
 export default function LoginForm() {
   const router = useRouter();
-  const IS_LOGGED = "is_logged";
 
   const LOGIN_EMPLOYEE = gql`
-    mutation LoginEmployee($email: String!, $password: String!) {
-      loginEmployee(loginInput: { email: $email, password: $password }) {
+    mutation loginUser($email: String!, $password: String!) {
+      loginUser(loginInput: { email: $email, password: $password }) {
         name
         token
         email
@@ -29,10 +28,10 @@ export default function LoginForm() {
     "userId",
     "email",
     "name",
-    IS_LOGGED,
+    "is_logged",
   ]);
 
-  const [loginEmployees, { data }] = useMutation(LOGIN_EMPLOYEE);
+  const [loginUser, { data }] = useMutation(LOGIN_EMPLOYEE);
 
   useEffect(() => {
     router.prefetch("/signup");
@@ -42,26 +41,32 @@ export default function LoginForm() {
     const { token, name, email, _id } = apiResponse ?? {};
 
     const expiry = add(new Date(), {
-      seconds: 1000 * 60 * 60 * 2,
+      seconds: 1000 * 60 * 60 * 1,
     });
+    const maxAge = 60 * 60; // removed after everyhour
 
     setCookie("token", token, {
       expires: expiry,
+      maxAge: maxAge,
     });
 
     setCookie("userId", _id, {
       expires: expiry,
+      maxAge: maxAge,
     });
 
     setCookie("email", email, {
       expires: expiry,
+      maxAge: maxAge,
     });
     setCookie("name", name, {
       expires: expiry,
+      maxAge: maxAge,
     });
 
-    setCookie(IS_LOGGED, true, {
+    setCookie("is_logged", true, {
       expires: expiry,
+      maxAge: maxAge,
     });
 
     router.push("/");
@@ -72,14 +77,14 @@ export default function LoginForm() {
     const email = values.username;
     const password = values.password;
     try {
-      loginEmployees({
+      loginUser({
         variables: {
           email,
           password,
         },
         onCompleted(data) {
-          console.log(data.loginEmployee);
-          postSuccessfullSignup(data.loginEmployee);
+          console.log(data.loginUser);
+          postSuccessfullSignup(data.loginUser);
         },
         onError(error) {
           message.error(

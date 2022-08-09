@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 const { Header } = Layout;
 
 const AdminHeader: React.FC = () => {
-  const IS_LOGGED = "is_logged";
-
   const router = useRouter();
 
   const [user, setUser] = useState(null);
@@ -17,18 +15,19 @@ const AdminHeader: React.FC = () => {
     "userId",
     "email",
     "name",
-    IS_LOGGED,
+    "is_logged",
   ]);
 
   useEffect(() => {
     setUser(cookies?.name?.split(" ")[0]);
   }, [cookies?.name]);
+
   const handleLogoutClick = () => {
     removeCookie("token");
     removeCookie("userId");
     removeCookie("email");
     removeCookie("name");
-    removeCookie(IS_LOGGED);
+    removeCookie("is_logged");
     router.push("/");
   };
 
