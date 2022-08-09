@@ -6,10 +6,6 @@ import { Form, Button, Row, Col } from "antd";
 import EmployeeForm from "../../forms/employee";
 import { message } from "antd";
 
-type ProjectInput = {
-  role: String;
-  description: String;
-};
 const EDIT_EMPLOYEE = gql`
   mutation EditEmployee(
     $_id: ID!
