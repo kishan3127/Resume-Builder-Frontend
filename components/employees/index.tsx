@@ -22,7 +22,7 @@ const GET_EMPLOYEES = gql`
     getEmployees {
       _id
       name
-      skill_intro
+      email
     }
   }
 `;
@@ -31,7 +31,7 @@ const DELETE_EMPLOYEE = gql`
     deleteEmployee(_id: $_id) {
       _id
       name
-      skill_intro
+      email
     }
   }
 `;
@@ -116,7 +116,11 @@ const EmployeesList = () => {
           },
           {
             label: (
-              <Button type="text" onClick={() => deleteEmoloyee(id)}>
+              <Button
+                style={{ padding: 0 }}
+                type="text"
+                onClick={() => deleteEmoloyee(id)}
+              >
                 <DeleteOutlined /> <Space>Delete</Space>
               </Button>
             ),
@@ -134,9 +138,9 @@ const EmployeesList = () => {
       key: "name",
     },
     {
-      title: "Skill Intro",
-      dataIndex: "skill_intro",
-      key: "skill_intro",
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
     },
     {
       title: "Department",

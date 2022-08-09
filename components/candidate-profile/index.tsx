@@ -23,6 +23,23 @@ const GET_EMPLOYEE = gql`
       email
       skill_intro
       _id
+      intro {
+        title
+        description
+      }
+      educations {
+        course
+        description
+      }
+      projects {
+        role
+        description
+      }
+      skills {
+        name
+        percentage
+        show
+      }
     }
   }
 `;
@@ -346,8 +363,16 @@ const EmployeeProfile = ({
     console.error(error);
     return null;
   }
-  const { name, email, skill_intro } = data?.getEmployee;
-  const { contact, intro, educations, projects, skills } = staticData;
+  const {
+    name,
+    email,
+    skill_intro,
+    contact,
+    intro,
+    educations,
+    projects,
+    skills,
+  } = data?.getEmployee;
   const firstName = name.split(" ")[0] || "Name Here";
   const [first] = firstName.split(" ")[0] || "N";
   return (
