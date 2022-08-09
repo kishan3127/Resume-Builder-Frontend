@@ -1,9 +1,10 @@
-import { Form, Input, Button, Checkbox, Row, Col, Slider } from "antd";
+import { Form, Input, Button, Checkbox, Row, Col, Slider, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { TextArea } = Input;
 
 import { Text } from "../../screens/styles";
+const { Option, OptGroup } = Select;
 
 function EmployeeForm() {
   return (
@@ -35,10 +36,10 @@ function EmployeeForm() {
                 label="Name"
                 name="name"
                 rules={[
-                  { required: true, message: "Please input Company Name!" },
+                  { required: true, message: "Please input Employee Name!" },
                 ]}
               >
-                <Input placeholder="Company Name" />
+                <Input placeholder="Employee Name" />
               </Form.Item>
             </Col>
           </Row>
@@ -75,6 +76,43 @@ function EmployeeForm() {
                 ]}
               >
                 <Input placeholder="Contact" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={20}>
+          <Row>
+            <Col span={20}>
+              <Form.Item
+                label="Department"
+                name="department"
+                rules={[
+                  { required: true, message: "Please select the department" },
+                ]}
+              >
+                <Select style={{ width: 200 }}>
+                  <Option value="Accounts">Accounts</Option>
+                  <Option value="BA">BA</Option>
+                  <Option value="Business Development">
+                    Business Development
+                  </Option>
+                  <Option value="Design Marketing">Design Marketing</Option>
+                  <Option value="Human Resource">Human Resource</Option>
+                  <Option value="Java">Java</Option>
+                  <Option value="Mobile">Mobile</Option>
+                  <Option value="Odoo">Odoo</Option>
+                  <Option value="PHP">PHP</Option>
+                  <Option value="Quality Analyst">Quality Analyst</Option>
+                  <Option value="Support and Maintenance">
+                    Support and Maintenance
+                  </Option>
+                  <Option value="System Admin">System Admin</Option>
+                  <Option value="UI/UX">UI/UX</Option>
+                  <Option value="Other">Other</Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>

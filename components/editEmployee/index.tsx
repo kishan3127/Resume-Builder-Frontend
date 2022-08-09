@@ -14,6 +14,7 @@ const EDIT_EMPLOYEE = gql`
     $email: String!
     $skill_intro: String
     $intro: IntroInput
+    $department: String
     $educations: [EducationInput]
     $projects: [ProjectInput]
     $skills: [SkillInput]
@@ -21,6 +22,7 @@ const EDIT_EMPLOYEE = gql`
     updateEmployee(
       _id: $_id
       employeeInput: {
+        department: $department
         contact: $contact
         name: $name
         email: $email
@@ -35,6 +37,7 @@ const EDIT_EMPLOYEE = gql`
       _id
       email
       contact
+      department
       skill_intro
       intro {
         title
@@ -64,6 +67,7 @@ const GET_EMPLOYEE = gql`
       _id
       email
       contact
+      department
       skill_intro
       intro {
         title

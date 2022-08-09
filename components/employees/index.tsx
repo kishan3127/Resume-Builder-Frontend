@@ -20,18 +20,58 @@ import { Text } from "../../screens/styles";
 const GET_EMPLOYEES = gql`
   query Employees {
     getEmployees {
-      _id
       name
+      _id
       email
+      contact
+      department
+      skill_intro
+      intro {
+        title
+        description
+      }
+      educations {
+        course
+        description
+      }
+      projects {
+        role
+        description
+      }
+      skills {
+        name
+        percentage
+        show
+      }
     }
   }
 `;
 const DELETE_EMPLOYEE = gql`
   mutation DeleteEmployee($_id: ID!) {
     deleteEmployee(_id: $_id) {
-      _id
       name
+      _id
       email
+      contact
+      department
+      skill_intro
+      intro {
+        title
+        description
+      }
+      educations {
+        course
+        description
+      }
+      projects {
+        role
+        description
+      }
+      skills {
+        name
+        percentage
+        show
+      }
     }
   }
 `;
@@ -144,12 +184,12 @@ const EmployeesList = () => {
     },
     {
       title: "Department",
-      key: "_id",
-      dataIndex: "id",
-      render: () => (
+      key: "department",
+      dataIndex: "department",
+      render: (department) => (
         <>
           <Text fl="unset" color="#121212">
-            Frontend Developer
+            {department}
           </Text>
         </>
       ),
