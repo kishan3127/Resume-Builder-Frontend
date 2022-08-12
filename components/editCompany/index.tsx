@@ -6,7 +6,7 @@ import { Form } from "antd";
 
 import CompanyForm from "../../forms/company";
 
-import { message } from "antd";
+import { message, Button } from "antd";
 
 const GET_COMPANIES = gql`
   query GetCompanies {
@@ -22,6 +22,7 @@ const ADD_EMPLOYEE = gql`
   mutation UpdateCompany(
     $_id: ID!
     $name: String!
+    $email: String!
     $is_active: Boolean!
     $employeesId: [String]
   ) {
@@ -29,13 +30,17 @@ const ADD_EMPLOYEE = gql`
       _id: $_id
       companyInput: {
         name: $name
+        email: $email
         is_active: $is_active
         employeesId: $employeesId
       }
     ) {
       name
+      email
       is_active
       employeesId
+      createdBy
+      createdAt
     }
   }
 `;
@@ -45,8 +50,11 @@ const GET_COMPANY = gql`
     getCompany(_id: $_id) {
       _id
       name
+      email
       is_active
       employeesId
+      createdBy
+      createdAt
     }
   }
 `;
@@ -101,6 +109,17 @@ function CompanyEditComponent({ companyId }) {
           wrapperCol={{ span: 14 }}
         >
           <CompanyForm />
+          Created At:{" "}
+          {JSON.stringify(
+            new Date(parseInt(companyData?.getCompany.createdAt, 10))
+          )}
+          <hr></hr>
+          Created By: {companyData?.getCompany.createdBy}
+          <Form.Item>
+            <Button htmlType="submit" type="primary">
+              Update
+            </Button>
+          </Form.Item>
         </Form>
       )}
     </>

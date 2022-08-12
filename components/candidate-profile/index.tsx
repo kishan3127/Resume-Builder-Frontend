@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { Collapse, Progress, Row, Col, Button } from "antd";
 import { useQuery, gql } from "@apollo/client";
@@ -343,7 +344,23 @@ const AccordionHeaderExprience = (data: { role: String }) => {
     </>
   );
 };
-
+const EmployeeNotFound = () => {
+  return (
+    <Row justify="center" style={{ textAlign: "center" }}>
+      <Col span={8}>
+        <h1>
+          Either Employee is not active or not Found, please drop us a mail
+          regarding the questions on below email address.
+        </h1>
+        <Button>
+          <Link href="mailto:sales@sunarctechnologies.com">
+            <span> {` sales@sunarctechnologies.com`} </span>
+          </Link>
+        </Button>
+      </Col>
+    </Row>
+  );
+};
 const EmployeeProfile = ({
   employeeId,
   staticData,
@@ -361,7 +378,7 @@ const EmployeeProfile = ({
 
   if (error) {
     console.error(error);
-    return null;
+    return <EmployeeNotFound />;
   }
   const {
     name,

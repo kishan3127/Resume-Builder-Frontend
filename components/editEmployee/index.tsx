@@ -130,9 +130,6 @@ function EmployeeEditComponent({ employeeId }) {
     return <Loader />;
   }
 
-  if (updatedData) {
-    message.success("Updating");
-  }
   return (
     <>
       <DashboardTitle

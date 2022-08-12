@@ -102,18 +102,25 @@ const CompaniesList = () => {
       render: (_id: string) => (
         <>
           <Link href={`/${_id}`}>
-            <a>
+            <a style={{ padding: "0 10px" }}>
               <EyeOutlined />
             </a>
           </Link>
-          <Button type="text" onClick={() => deleteCompanyHandle(_id)}>
-            <DeleteOutlined /> <Space>Delete</Space>
-          </Button>
-          <Link href={`/edit/company/${encodeURIComponent(_id)}`}>
-            <a>
+          <Link
+            style={{ padding: "0 10px" }}
+            href={`/edit/company/${encodeURIComponent(_id)}`}
+          >
+            <a style={{ padding: "0 10px" }}>
               <EditOutlined /> <Space>Edit</Space>
             </a>
           </Link>
+          <Button
+            style={{ padding: "0 10px" }}
+            type="text"
+            onClick={() => deleteCompanyHandle(_id)}
+          >
+            <DeleteOutlined /> <Space>Delete</Space>
+          </Button>
         </>
       ),
     },

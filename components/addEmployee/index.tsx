@@ -11,11 +11,27 @@ import EmployeeForm from "../../forms/employee";
 const ADD_EMPLOYEE = gql`
   mutation createEmployee(
     $name: String!
-    $skill_intro: String
+    $contact: String
     $email: String!
+    $skill_intro: String
+    $intro: IntroInput
+    $department: String
+    $educations: [EducationInput]
+    $projects: [ProjectInput]
+    $skills: [SkillInput]
   ) {
     createEmployee(
-      employeeInput: { name: $name, skill_intro: $skill_intro, email: $email }
+      employeeInput: {
+        department: $department
+        contact: $contact
+        name: $name
+        email: $email
+        skill_intro: $skill_intro
+        skills: $skills
+        projects: $projects
+        educations: $educations
+        intro: $intro
+      }
     ) {
       name
       skill_intro
@@ -46,9 +62,8 @@ const AddEmployee = () => {
   }
 
   const onFormSubmit = (values: any) => {
-    const { name, email, skill_intro } = values;
     createEmployee({
-      variables: { name, skill_intro, email },
+      variables: { ...values },
       onCompleted(data) {
         message.success("Successfully Updated");
         router.push(`/edit/employee/${data.createEmployee._id}`);

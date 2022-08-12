@@ -1,16 +1,18 @@
 import { useQuery, gql } from "@apollo/client";
-import { Skeleton, Row, Col } from "antd";
+import { Skeleton, Row, Col, Layout, Button } from "antd";
 
 import BackgroundImageLanding from "../../asset/land-bg.jpg";
 import EmployeeCard from "../../components/employee-card";
 import styled from "styled-components";
 
 import { Text } from "../../screens/styles";
+import Link from "next/link";
 
 const QUERY = gql`
   query company($_id: ID!) {
     getCompany(_id: $_id) {
       name
+      is_active
       _id
       employees {
         email
@@ -50,6 +52,24 @@ const SkeletonLoader = styled(Skeleton)`
     width: 30%;
   }
 `;
+
+const CompanyNotFound = () => {
+  return (
+    <Row justify="center" style={{ textAlign: "center" }}>
+      <Col span={8}>
+        <h1>
+          Either Company is not active or not Found, please drop us a mail
+          regarding the questions on below email address.
+        </h1>
+        <Button>
+          <Link href="mailto:sales@sunarctechnologies.com">
+            <span> {` sales@sunarctechnologies.com`} </span>
+          </Link>
+        </Button>
+      </Col>
+    </Row>
+  );
+};
 const CompanyProfileContainer = styled.div`
   background: url(${BackgroundImageLanding.src}) #f5ece7;
   padding: 10px 10px 100px;
@@ -65,144 +85,150 @@ const CompanyProfile = ({ companyId }: { companyId: string }) => {
   }
 
   if (error) {
-    console.error(error);
-    return <p>Error Please try again</p>;
+    return <CompanyNotFound />;
   }
 
+  if (data?.getCompany == null) {
+    return <CompanyNotFound />;
+  }
   const company = data.getCompany;
 
   return (
     <CompanyProfileContainer>
       <CompanyContainer>
-        <RightContainer>
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mb="30px"
-            fl="unset"
-            lh="1.5"
-            color="#EE7968"
-            fs="79px"
-          >
-            {company.name}
-          </Text>
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mb="55px"
-            fl="unset"
-            lh="1.5"
-            color="#3F1A18"
-            fs="19px"
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris.
-          </Text>
-          <div className="list_of_employees">
-            {company.employees.length != 0 ? (
-              <Row gutter={[30, 30]}>
-                {company.employees.map((employee) => {
-                  return (
-                    <Col
-                      xs={{ span: 24 }}
-                      sm={{ span: 12 }}
-                      lg={{ span: 8 }}
-                      key={employee._id}
-                    >
-                      <EmployeeCard company={company} employee={employee} />
-                    </Col>
-                  );
-                })}
-              </Row>
-            ) : (
-              "No Employee is assigned to this company"
-            )}
-          </div>
+        {company.is_active ? (
+          <RightContainer>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mb="30px"
+              fl="unset"
+              lh="1.5"
+              color="#EE7968"
+              fs="79px"
+            >
+              {company.name}
+            </Text>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mb="55px"
+              fl="unset"
+              lh="1.5"
+              color="#3F1A18"
+              fs="19px"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut ipsum dolor sit amet, consectetur
+              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris.
+            </Text>
+            <div className="list_of_employees">
+              {company.employees.length != 0 ? (
+                <Row gutter={[30, 30]}>
+                  {company.employees.map((employee) => {
+                    return (
+                      <Col
+                        xs={{ span: 24 }}
+                        sm={{ span: 12 }}
+                        lg={{ span: 8 }}
+                        key={employee._id}
+                      >
+                        <EmployeeCard company={company} employee={employee} />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              ) : (
+                "No Employee is assigned to this company"
+              )}
+            </div>
 
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mt="50px"
-            mb="10px"
-            fl="unset"
-            lh="1.5"
-            color="#3F1A18"
-            fs="19px"
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut ipsum dolor sit
-            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris. ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris.
-          </Text>
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mb="10px"
-            fl="unset"
-            lh="1.5"
-            color="#3F1A18"
-            fs="19px"
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris.
-          </Text>
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mb="10px"
-            fl="unset"
-            lh="1.5"
-            color="#3F1A18"
-            fs="19px"
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut ipsum dolor sit amet, consectetur adipiscing elit, sed
-            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris.
-          </Text>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mt="50px"
+              mb="10px"
+              fl="unset"
+              lh="1.5"
+              color="#3F1A18"
+              fs="19px"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt Lorem ipsum dolor sit amet, consectetur
+              adipiscing elit, sed do eiusmod tempor incididunt ut ipsum dolor
+              sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+              veniam, quis nostrud exercitation ullamco laboris. ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris.
+            </Text>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mb="10px"
+              fl="unset"
+              lh="1.5"
+              color="#3F1A18"
+              fs="19px"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+            </Text>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mb="10px"
+              fl="unset"
+              lh="1.5"
+              color="#3F1A18"
+              fs="19px"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna Lorem ipsum
+              dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut ipsum dolor sit amet, consectetur adipiscing elit,
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris. aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris.
+            </Text>
 
-          <iframe
-            width="100%"
-            height="415"
-            style={{ margin: "10px 0px" }}
-            src="https://www.youtube.com/embed/a5INJ6dy6pc"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-          <Text
-            style={{
-              fontFamily: "var(--front-primary-font)",
-            }}
-            mb="55px"
-            fl="unset"
-            lh="1.5"
-            color="#3F1A18"
-            fs="19px"
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris.
-          </Text>
-        </RightContainer>
+            <iframe
+              width="100%"
+              height="415"
+              style={{ margin: "10px 0px" }}
+              src="https://www.youtube.com/embed/a5INJ6dy6pc"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            <Text
+              style={{
+                fontFamily: "var(--front-primary-font)",
+              }}
+              mb="55px"
+              fl="unset"
+              lh="1.5"
+              color="#3F1A18"
+              fs="19px"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+            </Text>
+          </RightContainer>
+        ) : (
+          <CompanyNotFound />
+        )}
       </CompanyContainer>
     </CompanyProfileContainer>
   );

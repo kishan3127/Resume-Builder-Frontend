@@ -1,5 +1,6 @@
-import { useMutation, gql, useQuery } from "@apollo/client";
-import { Form } from "antd";
+import { useMutation, gql } from "@apollo/client";
+import { Form, message, Button } from "antd";
+
 import CompanyForm from "forms/company";
 import { useRouter } from "next/router";
 
@@ -10,11 +11,13 @@ const ADD_EMPLOYEE = gql`
   mutation CreateCompany(
     $name: String!
     $is_active: Boolean!
+    $email: String!
     $employeesId: [String]
   ) {
     createCompany(
       companyInput: {
         name: $name
+        email: $email
         is_active: $is_active
         employeesId: $employeesId
       }
@@ -31,6 +34,7 @@ const GET_COMPANIES = gql`
     getCompanies {
       _id
       name
+      email
       is_active
     }
   }
@@ -44,11 +48,6 @@ const AddCompany = () => {
 
   const router = useRouter();
 
-  if (data) {
-    console.log(data, "datadatadata");
-    router.push(`/edit/company/${data.createCompany._id}`);
-  }
-
   if (loading) {
     return <Loader />;
   }
@@ -57,6 +56,15 @@ const AddCompany = () => {
     addCompany({
       variables: {
         ...values,
+      },
+      onCompleted(data) {
+        message.success("Successfully Updated");
+        router.push(`/edit/company/${data.createCompany._id}`);
+      },
+      onError(error) {
+        message.error(
+          error.message ?? "Something went wrong, please try again!"
+        );
       },
     });
   };
@@ -74,6 +82,11 @@ const AddCompany = () => {
           wrapperCol={{ span: 14 }}
         >
           <CompanyForm />
+          <Form.Item>
+            <Button htmlType="submit" type="primary">
+              Update
+            </Button>
+          </Form.Item>
         </Form>
       )}
     </>

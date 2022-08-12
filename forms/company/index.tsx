@@ -1,31 +1,13 @@
-import {
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Row,
-  Col,
-  Slider,
-  Select,
-  Skeleton,
-} from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { useMutation, gql, useQuery } from "@apollo/client";
-
-import { message } from "antd";
+import { Form, Input, Button, Checkbox, Select, Skeleton } from "antd";
+import { gql, useQuery } from "@apollo/client";
 
 const { Option } = Select;
-
-const { TextArea } = Input;
-
-import { Text } from "../../screens/styles";
 
 const GET_EMPLOYEES_LIST = gql`
   query Employees {
     getEmployees {
       _id
       name
-      skill_intro
     }
   }
 `;
@@ -40,6 +22,12 @@ function CompanyForm() {
         rules={[{ required: true, message: "Please input Company Name!" }]}
       >
         <Input placeholder="Company Name" />
+      </Form.Item>
+      <Form.Item
+        name="email"
+        rules={[{ required: true, message: "Please input Company Email!" }]}
+      >
+        <Input placeholder="Company Email" />
       </Form.Item>
       <Form.Item name="employeesId">
         {!employeesList?.loading ? (
@@ -73,12 +61,6 @@ function CompanyForm() {
 
       <Form.Item valuePropName="checked" name="is_active">
         <Checkbox>Active?</Checkbox>
-      </Form.Item>
-
-      <Form.Item>
-        <Button htmlType="submit" type="primary">
-          Submit
-        </Button>
       </Form.Item>
     </>
   );
