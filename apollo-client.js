@@ -17,8 +17,7 @@ const authLink = setContext((res, { headers }) => {
   return {
     headers: {
       ...headers,
-      // TODO: Update the token values later on
-      authorization: "Bareer " + getCookie("token") || null,
+      authorization: "Bearer " + getCookie("token") || null,
     },
   };
 });
@@ -30,7 +29,6 @@ const client = new ApolloClient({
     addTypename: false,
   }),
   onError: ({ graphQLErrors, networkError, operation, forward }) => {
-    console.log(graphQLErrors, networkError, operation, forward);
     if (graphQLErrors) {
       for (let err of graphQLErrors) {
         // handle errors differently based on its error code

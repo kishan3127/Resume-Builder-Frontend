@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "antd";
 import styled from "styled-components";
 import Image from "next/image";
@@ -7,6 +7,8 @@ import loginImage from "../../asset/login-2.png";
 import LoginForm from "../../forms/login";
 
 import { Text } from "../styles";
+import { useRouter } from "next/router";
+import Loader from "components/loader";
 
 export const LeftSideContent = styled.div`
   // background: #fff7fc;
@@ -40,7 +42,18 @@ export const FormContainer = styled.div`
   overflow: hidden;
   clear: both;
 `;
-const LoginScreen = () => {
+const LoginScreen = (props) => {
+  const router = useRouter();
+  const [loggedIn] = useState(props.user.loggedIn);
+  useEffect(() => {
+    if (loggedIn) {
+      router.push(`/dashboard`);
+    }
+  }, [loggedIn]);
+
+  if (props.user.loggedIn) {
+    return <Loader />;
+  }
   return (
     <>
       <CustomRow align="middle">

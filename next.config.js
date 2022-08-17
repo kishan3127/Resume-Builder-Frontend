@@ -4,6 +4,9 @@ const nextConfig = {
   env: {
     GRAPHQL_CLIENT_URL: process.env.GRAPHQL_CLIENT_URL,
   },
-}
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

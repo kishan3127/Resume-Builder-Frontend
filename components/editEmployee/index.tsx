@@ -6,6 +6,10 @@ import { Form, Button, Row, Col } from "antd";
 import EmployeeForm from "../../forms/employee";
 import { message } from "antd";
 
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Upload } from "antd";
+import React, { useState } from "react";
+
 const EDIT_EMPLOYEE = gql`
   mutation EditEmployee(
     $_id: ID!
@@ -69,6 +73,7 @@ const GET_EMPLOYEE = gql`
       contact
       department
       skill_intro
+      userImage
       intro {
         title
         description
@@ -90,7 +95,26 @@ const GET_EMPLOYEE = gql`
   }
 `;
 
+const beforeUpload = (file) => {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+
+  return isJpgOrPng && isLt2M;
+};
+
 function EmployeeEditComponent({ employeeId }) {
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+  const [imageData, setImageData] = useState("");
   const [updateEmployee, { loading: loadingUpdatedData, data: updatedData }] =
     useMutation(EDIT_EMPLOYEE, {
       refetchQueries: [
@@ -108,6 +132,7 @@ function EmployeeEditComponent({ employeeId }) {
     updateEmployee({
       variables: {
         _id: employeeId,
+        imageData: imageData,
         ...values,
       },
       onCompleted(data) {
@@ -129,6 +154,45 @@ function EmployeeEditComponent({ employeeId }) {
   if (loadingUpdatedData) {
     return <Loader />;
   }
+  const handleChange = async (info) => {
+    if (info.file.status === "uploading") {
+      setLoading(true);
+      return;
+    }
+
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      const file = info.file.originFileObj;
+      const imageUpload = new FormData();
+
+      imageUpload.append("file", file, info.file.name);
+      imageUpload.append("upload_preset", "vita-uploads");
+      // setImageUrl(file);
+      console.log(info);
+      const data = await fetch(
+        "https://api.cloudinary.com/v1_1/vita-resume/image/upload",
+        {
+          method: "POST",
+          body: imageUpload,
+        }
+      ).then((response) => {
+        return response.json();
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -151,7 +215,29 @@ function EmployeeEditComponent({ employeeId }) {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
         >
+          {userData?.getEmployee?.userImage ? "test" : "fail"}
           <EmployeeForm />
+
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="avatar"
+                style={{
+                  width: "100%",
+                }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
           <Row>
             <Col span={24}>
               <Form.Item>

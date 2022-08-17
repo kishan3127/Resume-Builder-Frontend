@@ -23,6 +23,7 @@ const AdminHeader: React.FC = () => {
   }, [cookies?.name]);
 
   const handleLogoutClick = () => {
+    localStorage.setItem("logout-event", "logout" + Math.random());
     removeCookie("token");
     removeCookie("userId");
     removeCookie("email");
@@ -47,7 +48,7 @@ const AdminHeader: React.FC = () => {
             <a
               style={{ background: "white", padding: "10px" }}
               rel="noopener noreferrer"
-              onClick={() => handleLogoutClick()}
+              onClick={handleLogoutClick}
             >
               Logout
             </a>

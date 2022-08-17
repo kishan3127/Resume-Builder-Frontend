@@ -1,4 +1,4 @@
-import { Form, Input, Button, Checkbox, Select, Skeleton } from "antd";
+import { Form, Input, Checkbox, Select, Skeleton } from "antd";
 import { gql, useQuery } from "@apollo/client";
 
 const { Option } = Select;

@@ -73,7 +73,6 @@ export default function LoginForm() {
   };
 
   const onFinish = async (values: any) => {
-    console.log("values", values);
     const email = values.username;
     const password = values.password;
     try {

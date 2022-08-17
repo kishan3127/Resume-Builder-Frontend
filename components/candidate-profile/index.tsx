@@ -41,6 +41,7 @@ const GET_EMPLOYEE = gql`
         percentage
         show
       }
+      userImage
     }
   }
 `;
@@ -387,6 +388,7 @@ const EmployeeProfile = ({
     contact,
     intro,
     educations,
+    userImage,
     projects,
     skills,
   } = data?.getEmployee;
@@ -429,7 +431,12 @@ const EmployeeProfile = ({
 
           <RightContainer>
             <TopBannerSection>
-              <Image src={user} alt="Picture of the author" />
+              <Image
+                width={"900px"}
+                height={"900px"}
+                src={userImage || user}
+                alt="Picture of the author"
+              />
               <div className="text-container-top">
                 <div className="first-name rotated-name">
                   <h1>{firstName}</h1>
